@@ -1,0 +1,21 @@
+@import "../../../styles/index.scss";
+
+.user_profile {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+  .link {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+
+    .title {
+      margin-left: 8px;
+
+      &_inactive {
+        color: $dark-grey;
+      }
+    }
+  }
+}

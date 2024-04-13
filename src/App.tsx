@@ -1,9 +1,9 @@
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import AppHeader from "./components/app-header/app-header";
 
 function App() {
   return (
     <>
-      <Button htmlType={"button"} />
+      <AppHeader />
     </>
   );
 }
