@@ -8,15 +8,11 @@ export const NavigationList: FC = () => {
     <ul className={styles.nav_list}>
       <li className={styles.list_item}>
         <BurgerIcon type="primary" />
-        <span className={cn(styles.item_title)}>Конструктор</span>
+        <span className={cn("text text_type_main-default", [styles.item_title])}>Конструктор</span>
       </li>
       <li className={styles.list_item}>
         <ListIcon type="secondary" />
-        <span
-          className={cn(styles.item_title, {
-            [styles.item_title_inactive]: true
-          })}
-        >
+        <span className={cn("text text_type_main-default text_color_inactive", [styles.item_title])}>
           Лента заказов
         </span>
       </li>

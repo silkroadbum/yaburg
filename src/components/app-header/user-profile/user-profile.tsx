@@ -8,13 +8,7 @@ const UserProfile: FC = () => {
     <div className={styles.user_profile}>
       <a className={styles.link}>
         <ProfileIcon type="secondary" />
-        <span
-          className={cn(styles.title, {
-            [styles.title_inactive]: true
-          })}
-        >
-          Личный кабинет
-        </span>
+        <span className={cn("text text_type_main-default text_color_inactive", [styles.title])}>Личный кабинет</span>
       </a>
     </div>
   );

@@ -1,5 +1,4 @@
 @import "./colors.scss";
-@import "./fonts.scss";
 
 #root {
   height: 100vh;
@@ -13,9 +12,6 @@
 
 body {
   font-size: 16px;
-  font-weight: 400;
-  color: $primary-light;
-  font-family: "JetBrainsMono", sans-serif;
   font-weight: 400;
   background-color: $main-bg;
 }
