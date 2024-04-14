@@ -1,1 +1,10 @@
+.ingridients {
+  max-height: 100%;
+  overflow-y: hidden;
+  display: grid;
+  grid-template-rows: min-content min-content minmax(0, 1fr);
+}
 
+.ingridients_lists {
+  overflow-y: auto;
+}
