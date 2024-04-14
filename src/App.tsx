@@ -1,9 +1,9 @@
-import AppHeader from "./components/app-header/app-header";
+import MainPage from "./pages/main-page/main-page";
 
 function App() {
   return (
     <>
-      <AppHeader />
+      <MainPage />
     </>
   );
 }
