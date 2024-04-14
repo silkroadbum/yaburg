@@ -6,9 +6,9 @@ import styles from "./user-profile.module.scss";
 const UserProfile: FC = () => {
   return (
     <div className={styles.user_profile}>
-      <a className={styles.link}>
+      <a className={cn("pt-2 pb-2 pl-5 pr-5", styles.link)}>
         <ProfileIcon type="secondary" />
-        <span className={cn("text text_type_main-default text_color_inactive", [styles.title])}>Личный кабинет</span>
+        <span className="text text_type_main-default text_color_inactive ml-2">Личный кабинет</span>
       </a>
     </div>
   );
