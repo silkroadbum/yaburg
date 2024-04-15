@@ -1,1 +1,17 @@
+.burger_constructor {
+  max-height: 100%;
+  overflow-y: hidden;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) min-content;
 
+  .constructor_elements {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .burger_bun {
+      padding-left: 32px;
+    }
+  }
+}

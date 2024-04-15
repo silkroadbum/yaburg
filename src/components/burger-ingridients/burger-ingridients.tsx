@@ -1,16 +1,26 @@
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import cn from "classnames";
 import TabPanel from "./tab-panel/tab-panel";
 import IngridientsList from "./ingridients-list/ingridients-list";
-import { data } from "@/utils/data";
 import styles from "./burger-ingridients.module.scss";
+import { IBurgerIngridient } from "@/types/burger";
 
-const BurgerIngridients: FC = () => {
+interface IProps {
+  ingridients: IBurgerIngridient[];
+}
+
+const BurgerIngridients: FC<IProps> = ({ ingridients }) => {
   const [activeTab, setActiveTab] = useState<string>("bun");
 
-  const bunIngridients = data.filter((item) => item.type === "bun");
-  const sauseIngridients = data.filter((item) => item.type === "sauce");
-  const mainIngridients = data.filter((item) => item.type === "main");
+  const bunIngridients = useMemo(() => {
+    return ingridients.filter((item) => item.type === "bun");
+  }, [ingridients]);
+  const sauseIngridients = useMemo(() => {
+    return ingridients.filter((item) => item.type === "sauce");
+  }, [ingridients]);
+  const mainIngridients = useMemo(() => {
+    return ingridients.filter((item) => item.type === "main");
+  }, [ingridients]);
 
   return (
     <div className={cn("mt-10", [styles.ingridients])}>
