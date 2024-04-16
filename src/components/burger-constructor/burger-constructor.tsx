@@ -15,7 +15,7 @@ const BurgerConstructor: FC<IProps> = ({ ingridients }) => {
   const totalPrice = useMemo(() => ingridients.reduce((acc, currentItem) => acc + currentItem.price, 0), [ingridients]);
 
   return (
-    <div className={cn("pt-25 pl-4", styles.burger_constructor)}>
+    <section className={cn("pt-25 pl-4", styles.burger_constructor)}>
       <div className={cn("mb-10", styles.constructor_elements)}>
         <div className={styles.burger_bun}>
           <ConstructorElement
@@ -38,7 +38,7 @@ const BurgerConstructor: FC<IProps> = ({ ingridients }) => {
         </div>
       </div>
       <TotalPrice price={totalPrice} />
-    </div>
+    </section>
   );
 };
 

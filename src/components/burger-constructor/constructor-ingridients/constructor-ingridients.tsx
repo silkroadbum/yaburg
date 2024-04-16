@@ -12,9 +12,9 @@ const ConstructorIngridients: FC<IProps> = ({ ingridients }) => {
   return (
     <ul className={cn("custom-scroll", styles.burger_filling)}>
       {ingridients.map((el) => (
-        <li className={styles.burger_ingridient}>
+        <li key={el._id} className={styles.burger_ingridient}>
           <DragIcon type="primary" />
-          <ConstructorElement key={el._id} text={el.name} price={el.price} thumbnail={el.image} />
+          <ConstructorElement text={el.name} price={el.price} thumbnail={el.image} />
         </li>
       ))}
     </ul>

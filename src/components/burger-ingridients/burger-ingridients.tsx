@@ -9,6 +9,11 @@ interface IProps {
   ingridients: IBurgerIngridient[];
 }
 
+interface IIngridientsList {
+  title: string;
+  ingridients: IBurgerIngridient[];
+}
+
 const BurgerIngridients: FC<IProps> = ({ ingridients }) => {
   const [activeTab, setActiveTab] = useState<string>("bun");
 
@@ -22,16 +27,33 @@ const BurgerIngridients: FC<IProps> = ({ ingridients }) => {
     return ingridients.filter((item) => item.type === "main");
   }, [ingridients]);
 
+  const ingridientsList: IIngridientsList[] = [
+    {
+      title: "Булки",
+      ingridients: bunIngridients
+    },
+    {
+      title: "Соусы",
+      ingridients: sauseIngridients
+    },
+    {
+      title: "Начинки",
+      ingridients: mainIngridients
+    }
+  ];
+
   return (
-    <div className={cn("mt-10", [styles.ingridients])}>
+    <section className={cn("mt-10", [styles.ingridients])}>
       <h2 className="text text_type_main-large mb-5">Соберите бургер</h2>
       <TabPanel activeTab={activeTab} onClick={setActiveTab} />
-      <div className={cn("custom-scroll", styles.ingridients_lists)}>
-        <IngridientsList title="Булки" ingridients={bunIngridients} />
-        <IngridientsList title="Соусы" ingridients={sauseIngridients} />
-        <IngridientsList title="Начинки" ingridients={mainIngridients} />
-      </div>
-    </div>
+      <ul className={cn("custom-scroll", styles.ingridients_lists)}>
+        {ingridientsList.map(({ title, ingridients }, index) => (
+          <li key={index}>
+            <IngridientsList title={title} ingridients={ingridients} />
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 };
 
