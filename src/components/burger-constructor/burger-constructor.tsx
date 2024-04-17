@@ -3,7 +3,7 @@ import cn from "classnames";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import bun from "@/images/burger-icons/bun.png";
 import styles from "./burger-constructor.module.scss";
-import { IBurgerIngridient } from "@/types/burger";
+import { BurgerIngridientsTypeEnum, IBurgerIngridient } from "@/types/burger";
 import TotalPrice from "./total-price/total-price";
 import ConstructorIngridients from "./constructor-ingridients/constructor-ingridients";
 
@@ -13,6 +13,10 @@ interface IProps {
 
 const BurgerConstructor: FC<IProps> = ({ ingridients }) => {
   const totalPrice = useMemo(() => ingridients.reduce((acc, currentItem) => acc + currentItem.price, 0), [ingridients]);
+
+  const filteredIngridients = useMemo(() => {
+    return ingridients.filter((element) => element.type !== BurgerIngridientsTypeEnum.BUN);
+  }, [ingridients]);
 
   return (
     <section className={cn("pt-25 pl-4", styles.burger_constructor)}>
@@ -26,7 +30,7 @@ const BurgerConstructor: FC<IProps> = ({ ingridients }) => {
             thumbnail={bun}
           />
         </div>
-        <ConstructorIngridients ingridients={ingridients} />
+        <ConstructorIngridients ingridients={filteredIngridients} />
         <div className={styles.burger_bun}>
           <ConstructorElement
             type="bottom"
@@ -37,7 +41,7 @@ const BurgerConstructor: FC<IProps> = ({ ingridients }) => {
           />
         </div>
       </div>
-      <TotalPrice price={totalPrice} />
+      <TotalPrice price={totalPrice + 40} />
     </section>
   );
 };

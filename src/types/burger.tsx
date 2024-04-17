@@ -12,3 +12,9 @@ export interface IBurgerIngridient {
   image_large: string;
   __v: number;
 }
+
+export enum BurgerIngridientsTypeEnum {
+  BUN = "bun",
+  MAIN = "main",
+  SAUCE = "sauce"
+}

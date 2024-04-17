@@ -43,7 +43,7 @@ const BurgerIngridients: FC<IProps> = ({ ingridients }) => {
   ];
 
   return (
-    <section className={cn("mt-10", [styles.ingridients])}>
+    <section className={cn("mt-10", styles.ingridients)}>
       <h2 className="text text_type_main-large mb-5">Соберите бургер</h2>
       <TabPanel activeTab={activeTab} onClick={setActiveTab} />
       <ul className={cn("custom-scroll", styles.ingridients_lists)}>
