@@ -6,7 +6,7 @@ import orderAccepted from "@/images/modal/order-accepted.svg";
 const OrderDetails: FC = () => {
   return (
     <>
-      <h2 className="text text_type_digits-large mb-8">034536</h2>
+      <h2 className={cn("text text_type_digits-large mb-8", styles.header)}>034536</h2>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <span className={cn("mb-15", styles.accepted_icon)}>
         <img src={orderAccepted} alt="Галочка" width={107} height={102} />

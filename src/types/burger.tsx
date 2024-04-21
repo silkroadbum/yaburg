@@ -23,3 +23,10 @@ export enum BunPositionEnum {
   TOP = "верх",
   BOTTOM = "низ"
 }
+
+export interface ICompound {
+  name: string;
+  value: number;
+}
+
+export type ICompoundsList = ICompound[];

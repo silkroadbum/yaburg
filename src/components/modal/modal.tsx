@@ -3,8 +3,8 @@ import { createPortal } from "react-dom";
 import cn from "classnames";
 import ModalOverlay from "./modal-overlay/modal-overlay";
 import styles from "./modal.module.scss";
-import closeButton from "@/images/modal/close-icon.svg";
 import Button from "../button/button";
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const modalRoot = document.getElementById("react-modals");
 
@@ -30,10 +30,10 @@ const Modal: FC<IProps> = ({ header, onClose, children }) => {
   return createPortal(
     <>
       <div className={cn("p-10", styles.modal)}>
-        <header className={cn("text text_type_main-large", styles.modal_header)}>
-          <h2>{header}</h2>
+        <header className={styles.modal_header}>
+          <h2 className="text text_type_main-large">{header}</h2>
           <Button onClick={onClose} className={styles.modal_btn}>
-            <img src={closeButton} alt="Кнопка закрытия модального окна" />
+            <CloseIcon type="primary" />
           </Button>
         </header>
         <section className={styles.content}>{children}</section>
