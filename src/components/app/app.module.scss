@@ -6,3 +6,11 @@
   column-gap: 40px;
   height: calc(100% - 88px);
 }
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

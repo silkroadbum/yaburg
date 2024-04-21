@@ -18,3 +18,8 @@ export enum BurgerIngridientsTypeEnum {
   MAIN = "main",
   SAUCE = "sauce"
 }
+
+export enum BunPositionEnum {
+  TOP = "верх",
+  BOTTOM = "низ"
+}
