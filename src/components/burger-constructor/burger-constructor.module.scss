@@ -1,8 +1,8 @@
 .burger_constructor {
   max-height: 100%;
-  overflow-y: hidden;
   display: grid;
   grid-template-rows: minmax(0, 1fr) min-content;
+  overflow: hidden;
 
   .constructor_elements {
     max-height: 100%;
