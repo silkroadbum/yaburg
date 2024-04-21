@@ -36,7 +36,7 @@ const Modal: FC<IProps> = ({ header, onClose, children }) => {
             <img src={closeButton} alt="Кнопка закрытия модального окна" />
           </Button>
         </header>
-        {children}
+        <section className={styles.content}>{children}</section>
       </div>
       <ModalOverlay onCLose={onClose} />
     </>,

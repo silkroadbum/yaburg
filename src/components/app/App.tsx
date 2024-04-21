@@ -7,7 +7,6 @@ import styles from "./app.module.scss";
 import { INGRIDIENTS_API_URL } from "@/constants/url";
 import { IBurgerIngridient } from "@/types/burger";
 import Loader from "../loader/loader";
-import Modal from "../modal/modal";
 
 interface IAppState {
   data: IBurgerIngridient[];
@@ -21,7 +20,6 @@ const App: FC = () => {
     isLoading: false,
     isError: false
   });
-  const [isVisibleModal, setIsVisibleModal] = useState(true);
 
   const getData = () => {
     setState((prev) => ({ ...prev, isLoading: true }));
@@ -35,18 +33,9 @@ const App: FC = () => {
     getData();
   }, []);
 
-  const closeModal = () => {
-    setIsVisibleModal(false);
-  };
-
   return (
     <>
       <AppHeader />
-      {isVisibleModal && (
-        <Modal header={"123"} onClose={closeModal}>
-          <div>123</div>
-        </Modal>
-      )}
       {state.isLoading ? (
         <div className={styles.wrapper}>
           <Loader />
