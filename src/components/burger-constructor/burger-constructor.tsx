@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react";
 import cn from "classnames";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import bun from "@/images/burger-icons/bun.png";
+import bun from "@/images/burger/bun.png";
 import styles from "./burger-constructor.module.scss";
 import { BunPositionEnum, BurgerIngridientsTypeEnum, IBurgerIngridient } from "@/types/burger";
 import TotalPrice from "./total-price/total-price";

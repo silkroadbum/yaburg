@@ -3,7 +3,7 @@ import cn from "classnames";
 import TabPanel from "./tab-panel/tab-panel";
 import IngridientsList from "./ingridients-list/ingridients-list";
 import styles from "./burger-ingridients.module.scss";
-import { IBurgerIngridient } from "@/types/burger";
+import { BurgerIngridientsTypeEnum, IBurgerIngridient } from "@/types/burger";
 
 interface IProps {
   ingridients: IBurgerIngridient[];
@@ -15,16 +15,16 @@ interface IIngridientsList {
 }
 
 const BurgerIngridients: FC<IProps> = ({ ingridients }) => {
-  const [activeTab, setActiveTab] = useState<string>("bun");
+  const [activeTab, setActiveTab] = useState<string>(BurgerIngridientsTypeEnum.BUN);
 
   const bunIngridients = useMemo(() => {
-    return ingridients.filter((item) => item.type === "bun");
+    return ingridients.filter((item) => item.type === BurgerIngridientsTypeEnum.BUN);
   }, [ingridients]);
   const sauseIngridients = useMemo(() => {
-    return ingridients.filter((item) => item.type === "sauce");
+    return ingridients.filter((item) => item.type === BurgerIngridientsTypeEnum.SAUCE);
   }, [ingridients]);
   const mainIngridients = useMemo(() => {
-    return ingridients.filter((item) => item.type === "main");
+    return ingridients.filter((item) => item.type === BurgerIngridientsTypeEnum.MAIN);
   }, [ingridients]);
 
   const ingridientsList: IIngridientsList[] = [

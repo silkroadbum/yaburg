@@ -1,0 +1,26 @@
+@import "@/styles/colors.scss";
+
+.modal {
+  border-radius: 40px;
+  border: 1px solid $modal-edge;
+  background-color: $shark;
+  width: 720px;
+  min-height: 100px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+
+  &_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 64px;
+  }
+
+  &_btn {
+    width: 24px;
+    height: 24px;
+  }
+}
