@@ -1,23 +1,16 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./total-price.module.scss";
 import Modal from "@/components/modal/modal";
 import OrderDetails from "@/components/order-details/order-details";
+import { useModal } from "@/hooks/useModal";
 
 interface IProps {
   price: number;
 }
 
 const TotalPrice: FC<IProps> = ({ price }) => {
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-
-  const closeModal = () => {
-    setIsOpenModal(false);
-  };
-
-  const openModal = () => {
-    setIsOpenModal(true);
-  };
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
     <div className={styles.price_block}>
@@ -28,7 +21,7 @@ const TotalPrice: FC<IProps> = ({ price }) => {
       <Button htmlType="button" type="primary" size="large" onClick={openModal}>
         Оформить заказ
       </Button>
-      {isOpenModal && (
+      {isModalOpen && (
         <Modal onClose={closeModal}>
           <OrderDetails />
         </Modal>

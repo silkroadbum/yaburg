@@ -24,7 +24,12 @@ const App: FC = () => {
   const getData = () => {
     setState((prev) => ({ ...prev, isLoading: true }));
     fetch(INGRIDIENTS_API_URL)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
       .then((resData) => setState((prev) => ({ ...prev, isLoading: false, data: resData.data })))
       .catch(() => setState((prev) => ({ ...prev, isLoading: false, isError: true })));
   };
