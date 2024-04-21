@@ -8,7 +8,7 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: FC<IProps> = ({ children, className, ...otherProps }) => {
   return (
-    <button {...otherProps} className={cn(className, styles.button)}>
+    <button type="button" {...otherProps} className={cn(className, styles.button)}>
       {children}
     </button>
   );
