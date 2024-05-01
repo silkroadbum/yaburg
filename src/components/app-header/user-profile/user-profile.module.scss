@@ -1,0 +1,12 @@
+@import "@/styles/colors.scss";
+
+.user_profile {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+  .link {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -1,0 +1,12 @@
+.price_block {
+  display: flex;
+  justify-content: end;
+  gap: 40px;
+  margin-bottom: 30px;
+
+  .total_price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,12 @@
+@import "@/styles/colors.scss";
+
+.nav_list {
+  display: flex;
+  align-items: center;
+
+  .list_item {
+    display: flex;
+    align-items: center;
+    row-gap: 8px;
+  }
+}
