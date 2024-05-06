@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loadIngridients } from "./actions";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IBurgerIngridientsResponse, IBurgerIngridientsStore } from "./types";
+import { IBurgerIngridientsResponse, IBurgerIngridientsState } from "./types";
 
-const initialState: IBurgerIngridientsStore = {
+const initialState: IBurgerIngridientsState = {
   ingridients: [],
   loading: false,
   error: null

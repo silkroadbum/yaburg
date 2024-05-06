@@ -8,10 +8,10 @@ import TotalPrice from "./total-price/total-price";
 import ConstructorIngridients from "./constructor-ingridients/constructor-ingridients";
 import { BUN_INGRIDIENT_DEFAULT } from "@/constants/burger";
 import { useAppSelector } from "@/services/hooks";
-import { selectIngridients } from "@/services/burger-ingridients/selectors";
+import { selectConstructorIngridients } from "@/services/burger-constructor/selectors";
 
 const BurgerConstructor: FC = () => {
-  const ingridients = useAppSelector(selectIngridients);
+  const ingridients = useAppSelector(selectConstructorIngridients);
   const totalPrice = useMemo(() => ingridients.reduce((acc, currentItem) => acc + currentItem.price, 0), [ingridients]);
 
   const filteredIngridients = useMemo(() => {

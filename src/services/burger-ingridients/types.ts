@@ -1,6 +1,6 @@
 import { IBurgerIngridient } from "@/types/burger";
 
-export interface IBurgerIngridientsStore {
+export interface IBurgerIngridientsState {
   ingridients: IBurgerIngridient[];
   loading: boolean;
   error: string | null | undefined;
