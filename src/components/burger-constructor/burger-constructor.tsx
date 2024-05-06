@@ -3,16 +3,15 @@ import cn from "classnames";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import bun from "@/images/burger/bun.png";
 import styles from "./burger-constructor.module.scss";
-import { BunPositionEnum, BurgerIngridientsTypeEnum, IBurgerIngridient } from "@/types/burger";
+import { BunPositionEnum, BurgerIngridientsTypeEnum } from "@/types/burger";
 import TotalPrice from "./total-price/total-price";
 import ConstructorIngridients from "./constructor-ingridients/constructor-ingridients";
 import { BUN_INGRIDIENT_DEFAULT } from "@/constants/burger";
+import { useAppSelector } from "@/services/hooks";
+import { selectIngridients } from "@/services/burger-ingridients/selectors";
 
-interface IProps {
-  ingridients: IBurgerIngridient[];
-}
-
-const BurgerConstructor: FC<IProps> = ({ ingridients }) => {
+const BurgerConstructor: FC = () => {
+  const ingridients = useAppSelector(selectIngridients);
   const totalPrice = useMemo(() => ingridients.reduce((acc, currentItem) => acc + currentItem.price, 0), [ingridients]);
 
   const filteredIngridients = useMemo(() => {

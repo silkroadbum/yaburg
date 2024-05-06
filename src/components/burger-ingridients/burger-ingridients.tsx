@@ -7,17 +7,16 @@ import { BurgerIngridientsTypeEnum, IBurgerIngridient } from "@/types/burger";
 import { useModal } from "@/hooks/useModal";
 import Modal from "../modal/modal";
 import IngridientDetails from "../ingridient-details/ingridient-details";
-
-interface IProps {
-  ingridients: IBurgerIngridient[];
-}
+import { useAppSelector } from "@/services/hooks";
+import { selectIngridients } from "@/services/burger-ingridients/selectors";
 
 interface IIngridientsList {
   title: string;
   ingridients: IBurgerIngridient[];
 }
 
-const BurgerIngridients: FC<IProps> = ({ ingridients }) => {
+const BurgerIngridients: FC = () => {
+  const ingridients = useAppSelector(selectIngridients);
   const [activeTab, setActiveTab] = useState<string>(BurgerIngridientsTypeEnum.BUN);
   const { isModalOpen, openModal, closeModal } = useModal();
   const [currentIngridien, setCurrentIngridient] = useState<IBurgerIngridient>(ingridients[0]);
