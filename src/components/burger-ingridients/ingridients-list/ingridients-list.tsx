@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { forwardRef } from "react";
 import { IBurgerIngridient } from "@/types/burger";
 import IngridientsItem from "./ingridients-item/ingridients-item";
 import styles from "./ingridients-list.module.scss";
@@ -9,9 +9,9 @@ interface IProps {
   openModal: () => void;
 }
 
-const IngridientsList: FC<IProps> = ({ title, ingridients, openModal }) => {
+const IngridientsList = forwardRef<HTMLDivElement, IProps>(({ title, ingridients, openModal }, ref) => {
   return (
-    <div className="mb-10 pr-4 pl-4">
+    <div className="mb-10 pr-4 pl-4" ref={ref}>
       <h3 className="text text_type_main-medium mb-6">{title}</h3>
       <ul className={styles.ingridients_list}>
         {ingridients.map((ingridient) => (
@@ -20,6 +20,6 @@ const IngridientsList: FC<IProps> = ({ title, ingridients, openModal }) => {
       </ul>
     </div>
   );
-};
+});
 
 export default IngridientsList;

@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useMemo, useRef, useState } from "react";
 import cn from "classnames";
 import TabPanel from "./tab-panel/tab-panel";
 import IngridientsList from "./ingridients-list/ingridients-list";
@@ -14,6 +14,7 @@ import { selectIngridientModal } from "@/services/ingridientModal/selectors";
 interface IIngridientsList {
   title: string;
   ingridients: IBurgerIngridient[];
+  ref: React.RefObject<HTMLDivElement>;
 }
 
 const BurgerIngridients: FC = () => {
@@ -21,6 +22,10 @@ const BurgerIngridients: FC = () => {
   const [activeTab, setActiveTab] = useState<string>(BurgerIngridientsTypeEnum.BUN);
   const { isModalOpen, openModal, closeModal } = useModal();
   const ingridientModal = useAppSelector(selectIngridientModal);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const bunRef = useRef<HTMLDivElement>(null);
+  const sauceRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
 
   const bunIngridients = useMemo(() => {
     return ingridients.filter((item) => item.type === BurgerIngridientsTypeEnum.BUN);
@@ -37,26 +42,54 @@ const BurgerIngridients: FC = () => {
   const ingridientsList: IIngridientsList[] = [
     {
       title: "Булки",
-      ingridients: bunIngridients
+      ingridients: bunIngridients,
+      ref: bunRef
     },
     {
       title: "Соусы",
-      ingridients: sauseIngridients
+      ingridients: sauseIngridients,
+      ref: sauceRef
     },
     {
       title: "Начинки",
-      ingridients: mainIngridients
+      ingridients: mainIngridients,
+      ref: mainRef
     }
   ];
+
+  const handleScroll = () => {
+    const tabBottomPosition = tabsRef.current?.getBoundingClientRect().bottom;
+    const bunTopPosition = bunRef.current?.getBoundingClientRect().top || 0;
+    const sauceTopPosition = sauceRef.current?.getBoundingClientRect().top || 0;
+    const mainTopPosition = mainRef.current?.getBoundingClientRect().top || 0;
+    const distances = [
+      {
+        type: BurgerIngridientsTypeEnum.BUN,
+        distance: Math.abs(tabBottomPosition! - bunTopPosition)
+      },
+      {
+        type: BurgerIngridientsTypeEnum.SAUCE,
+        distance: Math.abs(tabBottomPosition! - sauceTopPosition)
+      },
+      {
+        type: BurgerIngridientsTypeEnum.MAIN,
+        distance: Math.abs(tabBottomPosition! - mainTopPosition)
+      }
+    ];
+
+    const closestTab = distances.find((item) => item.distance === Math.min(...distances.map((item) => item.distance)));
+
+    setActiveTab(closestTab!.type);
+  };
 
   return (
     <section className={cn("mt-10", styles.ingridients)}>
       <h2 className="text text_type_main-large mb-5">Соберите бургер</h2>
-      <TabPanel activeTab={activeTab} onClick={setActiveTab} />
-      <ul className={cn("custom-scroll", styles.ingridients_lists)}>
-        {ingridientsList.map(({ title, ingridients }, index) => (
-          <li key={index}>
-            <IngridientsList title={title} ingridients={ingridients} openModal={openModal} />
+      <TabPanel activeTab={activeTab} onClick={setActiveTab} ref={tabsRef} />
+      <ul className={cn("custom-scroll", styles.ingridients_lists)} onScroll={handleScroll}>
+        {ingridientsList.map(({ title, ingridients, ref }) => (
+          <li key={title}>
+            <IngridientsList title={title} ingridients={ingridients} openModal={openModal} ref={ref} />
           </li>
         ))}
       </ul>
