@@ -1,7 +1,6 @@
 import { FC, useMemo } from "react";
 import cn from "classnames";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import bun from "@/images/burger/bun.png";
 import styles from "./burger-constructor.module.scss";
 import { BunPositionEnum, BurgerIngridientsTypeEnum } from "@/types/burger";
 import TotalPrice from "./total-price/total-price";
@@ -26,31 +25,35 @@ const BurgerConstructor: FC = () => {
     <section className={cn("pt-25 pl-4", styles.burger_constructor)}>
       <div className={cn("mb-10", styles.constructor_elements)}>
         <div className={styles.burger_bun}>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={
-              bunIngridient
-                ? `${bunIngridient.name} (${BunPositionEnum.TOP})`
-                : `${BUN_INGRIDIENT_DEFAULT.name} (${BunPositionEnum.TOP})`
-            }
-            price={bunIngridient?.price || BUN_INGRIDIENT_DEFAULT.price}
-            thumbnail={bunIngridient?.image || bun}
-          />
+          {bunIngridient ? (
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${bunIngridient.name} (${BunPositionEnum.TOP})`}
+              price={bunIngridient.price}
+              thumbnail={bunIngridient.image}
+            />
+          ) : (
+            <div className={cn(styles.burger_bun__fake_top, "text text_type_main-default")}>Выберите булку</div>
+          )}
         </div>
-        <ConstructorIngridients ingridients={filteredIngridients} />
+        {filteredIngridients.length > 0 ? (
+          <ConstructorIngridients ingridients={filteredIngridients} />
+        ) : (
+          <div className={cn(styles.burger_ingredients, "text text_type_main-default")}>Выберите начинку</div>
+        )}
         <div className={styles.burger_bun}>
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={
-              bunIngridient
-                ? `${bunIngridient.name} (${BunPositionEnum.BOTTOM})`
-                : `${BUN_INGRIDIENT_DEFAULT.name} (${BunPositionEnum.BOTTOM})`
-            }
-            price={bunIngridient?.price || BUN_INGRIDIENT_DEFAULT.price}
-            thumbnail={bunIngridient?.image || bun}
-          />
+          {bunIngridient ? (
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${bunIngridient.name} (${BunPositionEnum.BOTTOM})`}
+              price={bunIngridient.price}
+              thumbnail={bunIngridient.image}
+            />
+          ) : (
+            <div className={cn(styles.burger_bun__fake_bottom, "text text_type_main-default")}>Выберите булку</div>
+          )}
         </div>
       </div>
       <TotalPrice price={totalPrice + (bunIngridient?.price || BUN_INGRIDIENT_DEFAULT.price) * 2} />
