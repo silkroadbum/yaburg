@@ -5,13 +5,11 @@ import styles from "./burger-constructor.module.scss";
 import { BunPositionEnum, BurgerIngridientsTypeEnum } from "@/types/burger";
 import TotalPrice from "./total-price/total-price";
 import ConstructorIngridients from "./constructor-ingridients/constructor-ingridients";
-import { BUN_INGRIDIENT_DEFAULT } from "@/constants/burger";
 import { useAppSelector } from "@/services/hooks";
 import { selectConstructorIngridients } from "@/services/burger-constructor/selectors";
 
 const BurgerConstructor: FC = () => {
   const ingridients = useAppSelector(selectConstructorIngridients);
-  const totalPrice = useMemo(() => ingridients.reduce((acc, currentItem) => acc + currentItem.price, 0), [ingridients]);
 
   const filteredIngridients = useMemo(() => {
     return ingridients.filter((element) => element.type !== BurgerIngridientsTypeEnum.BUN);
@@ -56,7 +54,7 @@ const BurgerConstructor: FC = () => {
           )}
         </div>
       </div>
-      <TotalPrice price={totalPrice + (bunIngridient?.price || BUN_INGRIDIENT_DEFAULT.price) * 2} />
+      <TotalPrice />
     </section>
   );
 };

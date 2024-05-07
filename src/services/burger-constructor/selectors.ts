@@ -1,5 +1,7 @@
 import { RootState } from "../store";
 
-export const selectConstructorIngridients = (state: RootState) => state.burgerConstructor.ingredients;
+export const selectBurgerConstructor = (state: RootState) => state.burgerConstructor;
 
-export const selectBunConstructor = (state: RootState) => state.burgerConstructor.bun;
+export const selectConstructorIngridients = (state: RootState) => selectBurgerConstructor(state).ingredients;
+
+export const selectBunConstructor = (state: RootState) => selectBurgerConstructor(state).bun;
