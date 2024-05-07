@@ -3,16 +3,18 @@ import cn from "classnames";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IBurgerIngridient } from "@/types/burger";
 import styles from "./ingridients-item.module.scss";
+import { useAppDispatch } from "@/services/hooks";
+import { setIngredientModal } from "@/services/ingridientModal/reducer";
 
 interface Iprops {
   ingridient: IBurgerIngridient;
   openModal: () => void;
-  setCurrentIngridient: (ingridient: IBurgerIngridient) => void;
 }
 
-export const IngridientsItem: FC<Iprops> = ({ ingridient, openModal, setCurrentIngridient }) => {
+export const IngridientsItem: FC<Iprops> = ({ ingridient, openModal }) => {
+  const dispatch = useAppDispatch();
   const handleClick = () => {
-    setCurrentIngridient(ingridient);
+    dispatch(setIngredientModal(ingridient));
     openModal();
   };
 

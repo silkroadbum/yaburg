@@ -18,3 +18,5 @@ export const burgerConstructorSlice = createSlice({
     }
   }
 });
+
+export const { addIngredient, removeIngredient } = burgerConstructorSlice.actions;

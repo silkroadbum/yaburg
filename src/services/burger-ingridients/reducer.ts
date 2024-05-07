@@ -20,6 +20,7 @@ export const burgerIngridientsSlice = createSlice({
         state.error = null;
       })
       .addCase(loadIngridients.rejected, (state, action) => {
+        state.ingridients = [];
         state.loading = false;
         state.error = action.error.message;
       })

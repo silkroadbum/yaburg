@@ -9,6 +9,7 @@ import Modal from "../modal/modal";
 import IngridientDetails from "../ingridient-details/ingridient-details";
 import { useAppSelector } from "@/services/hooks";
 import { selectIngridients } from "@/services/burger-ingridients/selectors";
+import { selectIngridientModal } from "@/services/ingridientModal/selectors";
 
 interface IIngridientsList {
   title: string;
@@ -19,14 +20,16 @@ const BurgerIngridients: FC = () => {
   const ingridients = useAppSelector(selectIngridients);
   const [activeTab, setActiveTab] = useState<string>(BurgerIngridientsTypeEnum.BUN);
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [currentIngridien, setCurrentIngridient] = useState<IBurgerIngridient>(ingridients[0]);
+  const ingridientModal = useAppSelector(selectIngridientModal);
 
   const bunIngridients = useMemo(() => {
     return ingridients.filter((item) => item.type === BurgerIngridientsTypeEnum.BUN);
   }, [ingridients]);
+
   const sauseIngridients = useMemo(() => {
     return ingridients.filter((item) => item.type === BurgerIngridientsTypeEnum.SAUCE);
   }, [ingridients]);
+
   const mainIngridients = useMemo(() => {
     return ingridients.filter((item) => item.type === BurgerIngridientsTypeEnum.MAIN);
   }, [ingridients]);
@@ -53,18 +56,13 @@ const BurgerIngridients: FC = () => {
       <ul className={cn("custom-scroll", styles.ingridients_lists)}>
         {ingridientsList.map(({ title, ingridients }, index) => (
           <li key={index}>
-            <IngridientsList
-              title={title}
-              ingridients={ingridients}
-              openModal={openModal}
-              setCurrentIngridient={setCurrentIngridient}
-            />
+            <IngridientsList title={title} ingridients={ingridients} openModal={openModal} />
           </li>
         ))}
       </ul>
-      {isModalOpen && (
+      {isModalOpen && ingridientModal && (
         <Modal header="Детали ингредиента" onClose={closeModal}>
-          <IngridientDetails ingridient={currentIngridien} />
+          <IngridientDetails ingridient={ingridientModal} />
         </Modal>
       )}
     </section>
