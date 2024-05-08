@@ -1,11 +1,12 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import cn from "classnames";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IBurgerIngridient } from "@/types/burger";
 import styles from "./ingridients-item.module.scss";
-import { useAppDispatch } from "@/services/hooks";
+import { useAppDispatch, useAppSelector } from "@/services/hooks";
 import { setIngredientModal } from "@/services/ingridientModal/reducer";
 import { useDrag } from "react-dnd";
+import { selectIngredientsCounter } from "@/services/burger-constructor/selectors";
 
 interface Iprops {
   ingridient: IBurgerIngridient;
@@ -13,6 +14,7 @@ interface Iprops {
 }
 
 export const IngridientsItem: FC<Iprops> = ({ ingridient, openModal }) => {
+  const ingredientsCounter = useAppSelector(selectIngredientsCounter);
   const dispatch = useAppDispatch();
   const handleClick = () => {
     dispatch(setIngredientModal(ingridient));
@@ -27,6 +29,10 @@ export const IngridientsItem: FC<Iprops> = ({ ingridient, openModal }) => {
     })
   });
 
+  const count = useMemo(() => {
+    return ingredientsCounter[ingridient._id];
+  }, [ingredientsCounter, ingridient]);
+
   return (
     <>
       <li
@@ -37,7 +43,7 @@ export const IngridientsItem: FC<Iprops> = ({ ingridient, openModal }) => {
       >
         <div className={cn("pr-4 pl-4", styles.top_card)}>
           <img className="mb-1" src={ingridient.image} alt={ingridient.name} ref={dragRef} />
-          {ingridient.__v > 0 && <Counter count={ingridient.__v} size="default" />}
+          {count && <Counter count={count} size="default" />}
           <p className={cn("text text_type_digits-default mb-1", styles.card_price)}>
             <span className="mr-2">{ingridient.price}</span>
             <CurrencyIcon type="primary" />
