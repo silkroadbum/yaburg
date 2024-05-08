@@ -40,7 +40,7 @@ export const burgerConstructorSlice = createSlice({
     removeBun(state) {
       state.bun = null;
     },
-    resetStateConstrucot(state) {
+    resetStateConstructor(state) {
       state.bun = initialState.bun;
       state.ingredients = initialState.ingredients;
     },
@@ -53,4 +53,5 @@ export const burgerConstructorSlice = createSlice({
   }
 });
 
-export const { addIngredients, removeIngredients, removeBun, reorderIngredients } = burgerConstructorSlice.actions;
+export const { addIngredients, removeIngredients, removeBun, reorderIngredients, resetStateConstructor } =
+  burgerConstructorSlice.actions;

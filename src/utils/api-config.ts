@@ -20,3 +20,13 @@ export const getIngridients = () => {
     headers: apiConfig.headers
   }).then(getResponse);
 };
+
+export const postOrder = (ingredients: Array<string>) => {
+  return fetch(`${apiConfig.baseUrl}/orders`, {
+    method: "POST",
+    headers: apiConfig.headers,
+    body: JSON.stringify({
+      ingredients: ingredients
+    })
+  }).then(getResponse);
+};
