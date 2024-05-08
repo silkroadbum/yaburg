@@ -5,6 +5,7 @@ import { IBurgerIngridient } from "@/types/burger";
 import styles from "./ingridients-item.module.scss";
 import { useAppDispatch } from "@/services/hooks";
 import { setIngredientModal } from "@/services/ingridientModal/reducer";
+import { useDrag } from "react-dnd";
 
 interface Iprops {
   ingridient: IBurgerIngridient;
@@ -18,11 +19,24 @@ export const IngridientsItem: FC<Iprops> = ({ ingridient, openModal }) => {
     openModal();
   };
 
+  const [{ isDrag }, dragRef] = useDrag({
+    type: "ingridient",
+    item: { ingridient },
+    collect: (monitor) => ({
+      isDrag: monitor.isDragging()
+    })
+  });
+
   return (
     <>
-      <li className={cn("mb-8", styles.card)} onClick={handleClick}>
+      <li
+        className={cn("mb-8", styles.card, {
+          [styles.card__dragged]: isDrag
+        })}
+        onClick={handleClick}
+      >
         <div className={cn("pr-4 pl-4", styles.top_card)}>
-          <img className="mb-1" src={ingridient.image} alt={ingridient.name} />
+          <img className="mb-1" src={ingridient.image} alt={ingridient.name} ref={dragRef} />
           {ingridient.__v > 0 && <Counter count={ingridient.__v} size="default" />}
           <p className={cn("text text_type_digits-default mb-1", styles.card_price)}>
             <span className="mr-2">{ingridient.price}</span>

@@ -1,6 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
 import { IBurgerConstructorState } from "./types";
-import { BurgerIngridientsTypeEnum, IBurgerIngridient } from "@/types/burger";
+import { BurgerIngridientsTypeEnum, IBurgerIngridient, IBurgerIngridientWithUniqKey } from "@/types/burger";
 
 const initialState: IBurgerConstructorState = {
   bun: null,
@@ -11,15 +11,21 @@ export const burgerConstructorSlice = createSlice({
   name: "burgerConstructor",
   initialState,
   reducers: {
-    addIngredients(state, { payload }: PayloadAction<IBurgerIngridient>) {
-      if (payload.type === BurgerIngridientsTypeEnum.BUN) {
-        state.bun = payload;
-        return;
+    addIngredients: {
+      reducer: (state, { payload }: PayloadAction<IBurgerIngridientWithUniqKey>) => {
+        if (payload.type === BurgerIngridientsTypeEnum.BUN) {
+          state.bun = payload;
+          return;
+        }
+        state.ingredients.push(payload);
+      },
+      prepare: (payload: IBurgerIngridient): { payload: IBurgerIngridientWithUniqKey } => {
+        const uniqKey = nanoid();
+        return { payload: { ...payload, uniqKey } };
       }
-      state.ingredients.push(payload);
     },
     removeIngredients(state, { payload }: PayloadAction<string>) {
-      state.ingredients = state.ingredients.filter((item) => item._id !== payload);
+      state.ingredients = state.ingredients.filter((item) => item.uniqKey !== payload);
     },
     removeBun(state) {
       state.bun = null;

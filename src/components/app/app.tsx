@@ -8,6 +8,8 @@ import Loader from "../loader/loader";
 import { useAppDispatch, useAppSelector } from "@/services/hooks";
 import { selectErrorStatusIngridients, selectLoadingStatusIngridients } from "@/services/burger-ingridients/selectors";
 import { loadIngridients } from "@/services/burger-ingridients/actions";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const App: FC = () => {
   const loading = useAppSelector(selectLoadingStatusIngridients);
@@ -29,8 +31,10 @@ const App: FC = () => {
         <div className={cn("text text_type_main-default", styles.wrapper)}>Ошибка получения данных!</div>
       ) : (
         <main className={styles.container}>
-          <BurgerIngridients />
-          <BurgerConstructor />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngridients />
+            <BurgerConstructor />
+          </DndProvider>
         </main>
       )}
     </>

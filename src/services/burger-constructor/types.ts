@@ -1,6 +1,6 @@
-import { IBurgerIngridient } from "@/types/burger";
+import { IBurgerIngridientWithUniqKey } from "@/types/burger";
 
 export interface IBurgerConstructorState {
-  bun: IBurgerIngridient | null;
-  ingredients: IBurgerIngridient[];
+  bun: IBurgerIngridientWithUniqKey | null;
+  ingredients: IBurgerIngridientWithUniqKey[];
 }
