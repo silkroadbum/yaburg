@@ -1,21 +1,18 @@
 import { FC } from "react";
 import cn from "classnames";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IBurgerIngridient } from "@/types/burger";
+import { IBurgerIngridientWithUniqKey } from "@/types/burger";
 import styles from "./constructor-ingridients.module.scss";
+import ConstructorIngridient from "./constructor-ingredient/constructor-ingredient";
 
 interface IProps {
-  ingridients: IBurgerIngridient[];
+  ingridients: IBurgerIngridientWithUniqKey[];
 }
 
 const ConstructorIngridients: FC<IProps> = ({ ingridients }) => {
   return (
     <ul className={cn("custom-scroll", styles.burger_filling)}>
-      {ingridients.map((el) => (
-        <li key={el._id} className={styles.burger_ingridient}>
-          <DragIcon type="primary" />
-          <ConstructorElement text={el.name} price={el.price} thumbnail={el.image} />
-        </li>
+      {ingridients.map((el, index) => (
+        <ConstructorIngridient key={el.uniqKey} ingridient={el} index={index} />
       ))}
     </ul>
   );

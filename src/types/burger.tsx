@@ -13,6 +13,10 @@ export interface IBurgerIngridient {
   __v: number;
 }
 
+export interface IBurgerIngridientWithUniqKey extends IBurgerIngridient {
+  uniqKey: string;
+}
+
 export enum BurgerIngridientsTypeEnum {
   BUN = "bun",
   MAIN = "main",

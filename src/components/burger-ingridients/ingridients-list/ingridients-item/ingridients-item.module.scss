@@ -3,6 +3,10 @@
   position: relative;
   cursor: pointer;
 
+  &__dragged {
+    opacity: 0.5;
+  }
+
   .top_card {
     display: flex;
     flex-direction: column;

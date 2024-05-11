@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { forwardRef } from "react";
 import cn from "classnames";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./tab-panel.module.scss";
@@ -9,9 +9,9 @@ interface IProps {
   onClick: (value: string) => void;
 }
 
-const TabPanel: FC<IProps> = ({ activeTab, onClick }) => {
+const TabPanel = forwardRef<HTMLDivElement, IProps>(({ activeTab, onClick }, ref) => {
   return (
-    <div className={cn("mb-10", styles.tab_panel)}>
+    <div className={cn("mb-10", styles.tab_panel)} ref={ref}>
       <Tab value={BurgerIngridientsTypeEnum.BUN} active={activeTab === BurgerIngridientsTypeEnum.BUN} onClick={onClick}>
         Булки
       </Tab>
@@ -31,6 +31,6 @@ const TabPanel: FC<IProps> = ({ activeTab, onClick }) => {
       </Tab>
     </div>
   );
-};
+});
 
 export default TabPanel;
