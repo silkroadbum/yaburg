@@ -43,6 +43,7 @@ export const burgerConstructorSlice = createSlice({
     resetStateConstructor(state) {
       state.bun = initialState.bun;
       state.ingredients = initialState.ingredients;
+      state.ingredientsCounter = initialState.ingredientsCounter;
     },
     reorderIngredients(state, { payload }: PayloadAction<{ indexFrom: number; indexTo: number }>) {
       const ingredients = [...state.ingredients];

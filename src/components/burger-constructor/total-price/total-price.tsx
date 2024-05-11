@@ -8,38 +8,53 @@ import { useAppDispatch, useAppSelector } from "@/services/hooks";
 import { selectBurgerConstructor } from "@/services/burger-constructor/selectors";
 import { createOrder } from "@/services/order/actions";
 import { resetStateConstructor } from "@/services/burger-constructor/reducer";
+import { resetStateOrder } from "@/services/order/reducer";
+import { selectLoadingStatusOrder } from "@/services/order/selectors";
+import Loader from "@/components/loader/loader";
 
 const TotalPrice: FC = () => {
   const dispatch = useAppDispatch();
   const { ingredients, bun } = useAppSelector(selectBurgerConstructor);
+  const loading = useAppSelector(selectLoadingStatusOrder);
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const ingredientsPrice = useMemo(() => ingredients.reduce((acc, item) => acc + item.price, 0), [ingredients]);
   const bunPrice = useMemo(() => (bun ? bun.price * 2 : 0), [bun]);
+  const totalPrice = useMemo(() => ingredientsPrice + bunPrice, [ingredientsPrice, bunPrice]);
 
   const ids = useMemo(() => {
-    const arrayIds = ingredients.map((ingredients) => ingredients._id);
-    if (bun) arrayIds.push(bun._id);
-    return arrayIds;
+    const ingredientIds = ingredients.map((ingredients) => ingredients._id);
+    if (bun) ingredientIds.push(bun._id);
+    return ingredientIds;
   }, [bun, ingredients]);
 
   const onClickCreateOrder = () => {
-    dispatch(createOrder(ids));
-    openModal();
-    dispatch(resetStateConstructor());
+    if (bun) {
+      dispatch(createOrder(ids));
+      openModal();
+      dispatch(resetStateConstructor());
+    }
+  };
+
+  const onClickCloseModal = () => {
+    closeModal();
+    dispatch(resetStateOrder());
   };
 
   return (
     <div className={styles.price_block}>
       <p className={styles.total_price}>
-        <span className="text text_type_digits-medium">{ingredientsPrice + bunPrice}</span>
+        <span className="text text_type_digits-medium">{totalPrice}</span>
         <CurrencyIcon type="primary" />
       </p>
       <Button htmlType="button" type="primary" size="large" onClick={onClickCreateOrder}>
         Оформить заказ
       </Button>
-      {isModalOpen && (
-        <Modal onClose={closeModal}>
+
+      {loading && <Loader className={styles.loader} />}
+
+      {!loading && isModalOpen && (
+        <Modal onClose={onClickCloseModal}>
           <OrderDetails />
         </Modal>
       )}

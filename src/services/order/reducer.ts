@@ -11,7 +11,13 @@ const initialState: IOrderState = {
 export const orderSlice = createSlice({
   name: "order",
   initialState,
-  reducers: {},
+  reducers: {
+    resetStateOrder(state) {
+      state.order = initialState.order;
+      state.loading = initialState.loading;
+      state.error = initialState.error;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createOrder.pending, (state) => {
@@ -30,3 +36,5 @@ export const orderSlice = createSlice({
       });
   }
 });
+
+export const { resetStateOrder } = orderSlice.actions;
