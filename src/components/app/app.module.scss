@@ -1,6 +1,7 @@
-.container {
-  height: calc(100% - var(--header-height));
+.wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
