@@ -7,6 +7,7 @@ import { selectOrder } from "@/services/order/selectors";
 
 const OrderDetails: FC = () => {
   const order = useAppSelector(selectOrder);
+
   return (
     <>
       <h2 className={cn("text text_type_digits-large mb-8", styles.header)}>{order?.order.number}</h2>

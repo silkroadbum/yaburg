@@ -51,12 +51,8 @@ const TotalPrice: FC = () => {
         Оформить заказ
       </Button>
 
-      {loading && <Loader className={styles.loader} />}
-
-      {!loading && isModalOpen && (
-        <Modal onClose={onClickCloseModal}>
-          <OrderDetails />
-        </Modal>
+      {isModalOpen && (
+        <Modal onClose={onClickCloseModal}>{loading ? <Loader className={styles.loader} /> : <OrderDetails />}</Modal>
       )}
     </div>
   );
