@@ -15,6 +15,11 @@ import { loadIngridients } from "@/services/burger-ingridients/actions";
 import Loader from "../loader/loader";
 import styles from "./app.module.scss";
 import cn from "classnames";
+import { Login } from "@/pages/login/login";
+import { Register } from "@/pages/register/register";
+import { ForgotPassword } from "@/pages/forgot-password/forgot-password";
+import { ResetPassword } from "@/pages/reset-password/reset-password";
+import { Profile } from "@/pages/profile/profile";
 
 const App: FC = () => {
   const location = useLocation();
@@ -50,11 +55,11 @@ const App: FC = () => {
         <>
           <Routes location={state?.backgroundLocation || location}>
             <Route path={RoutePath.home} element={<Home />} />
-            <Route path={RoutePath.login} element={<Home />} />
-            <Route path={RoutePath.register} element={<Home />} />
-            <Route path={RoutePath.forgot_password} element={<Home />} />
-            <Route path={RoutePath.reset_password} element={<Home />} />
-            <Route path={RoutePath.profile} element={<Home />} />
+            <Route path={RoutePath.login} element={<Login />} />
+            <Route path={RoutePath.register} element={<Register />} />
+            <Route path={RoutePath.forgot_password} element={<ForgotPassword />} />
+            <Route path={RoutePath.reset_password} element={<ResetPassword />} />
+            <Route path={RoutePath.profile} element={<Profile />} />
             <Route path={`${RoutePath.ingredients}/:id`} element={<Ingredients />} />
             <Route path={RoutePath.not_found} element={<NotFound />} />
           </Routes>
