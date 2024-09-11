@@ -1,6 +1,19 @@
 .container {
   height: calc(100% - var(--header-height));
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 320px 480px;
+  column-gap: 60px;
+  padding-top: 120px;
+
+  .list {
+    &_item {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      cursor: pointer;
+    }
+  }
 }
