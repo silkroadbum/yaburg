@@ -49,7 +49,7 @@ const App: FC = () => {
       ) : (
         <>
           <Routes location={state?.backgroundLocation || location}>
-            <Route index element={<Home />} />
+            <Route path={RoutePath.home} element={<Home />} />
             <Route path={RoutePath.login} element={<Home />} />
             <Route path={RoutePath.register} element={<Home />} />
             <Route path={RoutePath.forgot_password} element={<Home />} />
