@@ -1,7 +1,14 @@
 import { BASE_URL } from "@/constants/url";
 import { IBurgerIngridientsResponse } from "@/services/burger-ingridients/types";
 import { TUser } from "@/services/user/types";
-import { IOrderResponse, IServerRefreshTokenResponse, ServerUserResponse, TApiResponse } from "@/types/api-response";
+import {
+  ILoginUserResponse,
+  ILogoutResponse,
+  IOrderResponse,
+  IServerRefreshTokenResponse,
+  IServerUserResponse,
+  TApiResponse
+} from "@/types/api-response";
 
 const apiConfig = {
   baseUrl: BASE_URL,
@@ -70,32 +77,38 @@ const postOrder = (data: Array<string>) => {
 };
 
 const getUser = async (): Promise<TUser> => {
-  return fetchWithRefresh<TApiResponse<ServerUserResponse>>("auth/user", {
+  return fetchWithRefresh<TApiResponse<IServerUserResponse>>("auth/user", {
     method: "GET",
     headers: apiConfig.headers
   }).then((res) => (res.success ? res.user : Promise.reject(res)));
 };
 
-const login = (): Promise<TUser> =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      localStorage.setItem("accessToken", "test-token");
-      localStorage.setItem("refreshToken", "test-refresh-token");
-      resolve({
-        name: "123",
-        email: "123"
-      });
-    }, 1000);
+const login = () => {
+  return request<TApiResponse<ILoginUserResponse>>("auth/login", { headers: apiConfig.headers }).then((res) => {
+    localStorage.setItem("accessToken", res.accessToken);
+    localStorage.setItem("refreshToken", res.refreshToken);
+    return res.user;
   });
+};
 
-const logout = (): Promise<void> =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      resolve();
-    }, 1000);
-  });
+const logout = () => {
+  const token = localStorage.getItem("refreshToken");
+  if (token) {
+    return request<TApiResponse<ILogoutResponse>>("auth/logout", {
+      headers: apiConfig.headers,
+      body: JSON.stringify({ token })
+    }).then((res) => {
+      if (res.success) {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+      } else {
+        Promise.reject(res);
+      }
+    });
+  } else {
+    Promise.reject();
+  }
+};
 
 export const api = {
   getIngridients,

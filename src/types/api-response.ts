@@ -18,6 +18,12 @@ export interface IOrderResponse {
   };
 }
 
-export type ServerUserResponse = {
+export interface IServerUserResponse {
   user: TUser;
-};
+}
+
+export interface ILoginUserResponse extends IServerRefreshTokenResponse, IServerUserResponse {}
+
+export interface ILogoutResponse {
+  message: string;
+}
