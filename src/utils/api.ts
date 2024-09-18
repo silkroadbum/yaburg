@@ -1,5 +1,6 @@
 import { BASE_URL } from "@/constants/url";
 import { IBurgerIngridientsResponse } from "@/services/burger-ingridients/types";
+import { TUser } from "@/services/user/types";
 import { IOrderResponse, IServerRefreshTokenResponse, TApiResponse } from "@/types/api-response";
 
 const apiConfig = {
@@ -51,13 +52,13 @@ export const fetchWithRefresh = async <T>(url: string, options: RequestInit) => 
   }
 };
 
-export const getIngridients = () => {
+const getIngridients = () => {
   return request<TApiResponse<IBurgerIngridientsResponse>>("ingredients", {
     headers: apiConfig.headers
   });
 };
 
-export const postOrder = (ingredientsIds: Array<string>) => {
+const postOrder = (ingredientsIds: Array<string>) => {
   return request<TApiResponse<IOrderResponse>>("orders", {
     method: "POST",
     headers: apiConfig.headers,
@@ -67,8 +68,48 @@ export const postOrder = (ingredientsIds: Array<string>) => {
   });
 };
 
+const getUser = async (): Promise<TUser> => {
+  const request: Promise<TUser> = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ name: "123", email: "123" });
+    }, 1000);
+  });
+
+  try {
+    return await request;
+  } catch (error) {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    throw error;
+  }
+};
+
+const login = (): Promise<TUser> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      localStorage.setItem("accessToken", "test-token");
+      localStorage.setItem("refreshToken", "test-refresh-token");
+      resolve({
+        name: "123",
+        email: "123"
+      });
+    }, 1000);
+  });
+
+const logout = (): Promise<void> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      resolve();
+    }, 1000);
+  });
+
 export const api = {
   getIngridients,
   postOrder,
-  refreshToken
+  refreshToken,
+  login,
+  logout,
+  getUser
 };
