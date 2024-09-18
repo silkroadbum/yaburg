@@ -1,6 +1,8 @@
+import { TApiResponse } from "@/types/api-response.ts";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IOrder, IOrderState } from "./types";
+import { IOrderState } from "./types";
 import { createOrder } from "./actions";
+import { IOrderResponse } from "@/types/api-response";
 
 const initialState: IOrderState = {
   order: null,
@@ -29,7 +31,7 @@ export const orderSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase(createOrder.fulfilled, (state, { payload }: PayloadAction<IOrder>) => {
+      .addCase(createOrder.fulfilled, (state, { payload }: PayloadAction<TApiResponse<IOrderResponse>>) => {
         state.loading = false;
         state.error = null;
         state.order = payload;

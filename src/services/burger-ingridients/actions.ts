@@ -1,4 +1,4 @@
-import { getIngridients } from "@/utils/api";
+import { api } from "@/utils/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const loadIngridients = createAsyncThunk("ingridients/loadIngridients", getIngridients);
+export const loadIngridients = createAsyncThunk("ingridients/loadIngridients", api.getIngridients);

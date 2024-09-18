@@ -6,7 +6,6 @@ import { RoutePath } from "@/constants/router";
 import { NotFound } from "@/pages/not-found/not-found";
 import { useModal } from "@/hooks/useModal";
 import { useAppDispatch, useAppSelector } from "@/services/hooks";
-import { removeIngredientModal } from "@/services/ingridientModal/reducer";
 import Modal from "../modal/modal";
 import IngridientDetails from "../ingridient-details/ingridient-details";
 import { Ingredients } from "@/pages/ingredients/ingredients";
@@ -32,7 +31,6 @@ const App: FC = () => {
   const onClickCloseModal = () => {
     navigate(-1);
     closeModal();
-    dispatch(removeIngredientModal());
   };
 
   const loading = useAppSelector(selectLoadingStatusIngridients);

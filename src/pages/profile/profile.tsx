@@ -21,11 +21,11 @@ export const Profile = () => {
           В этом разделе вы можете изменить свои персональные данные
         </p>
       </nav>
-      <div>
+      <form className={styles.form}>
         <Input icon={"EditIcon"} extraClass="mb-6" placeholder="Имя" value={""} onChange={() => console.log("имя")} />
         <EmailInput isIcon extraClass="mb-6" placeholder="Логин" value={email} onChange={onChange} />
         <PasswordInput icon={"EditIcon"} value={""} onChange={() => console.log("password")} />
-      </div>
+      </form>
     </div>
   );
 };
