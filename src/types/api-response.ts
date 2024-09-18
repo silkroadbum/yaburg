@@ -18,6 +18,6 @@ export interface IOrderResponse {
   };
 }
 
-export type ServerUserResponse = IServerRefreshTokenResponse & {
+export type ServerUserResponse = {
   user: TUser;
 };

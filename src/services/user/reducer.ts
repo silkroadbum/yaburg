@@ -14,13 +14,9 @@ export const userSlice = createSlice({
     setIsAuthChecked: (state, action: PayloadAction<boolean>) => {
       state.isAuthChecked = action.payload;
     },
-    setUser: (state, action: PayloadAction<TUser | null>) => {
+    setUser: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
     }
-  },
-  selectors: {
-    getIsAuthChecked: (state) => state.isAuthChecked,
-    getUser: (state) => state.user
   },
   extraReducers: (builder) => {
     builder
@@ -35,4 +31,3 @@ export const userSlice = createSlice({
 });
 
 export const { setIsAuthChecked, setUser } = userSlice.actions;
-export const { getIsAuthChecked, getUser } = userSlice.selectors;
