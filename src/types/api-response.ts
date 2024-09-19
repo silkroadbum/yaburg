@@ -27,3 +27,18 @@ export interface ILoginUserResponse extends IServerRefreshTokenResponse, IServer
 export interface ILogoutResponse {
   message: string;
 }
+
+export enum HTTPMethod {
+  GET = "GET",
+  POST = "POST",
+  PATCH = "PATCH"
+}
+
+export interface IRegisterRequest extends TUser {
+  password: string;
+}
+
+export interface ILoginRequest {
+  email: string;
+  password: string;
+}

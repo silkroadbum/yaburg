@@ -2,9 +2,12 @@ import { BASE_URL } from "@/constants/url";
 import { IBurgerIngridientsResponse } from "@/services/burger-ingridients/types";
 import { TUser } from "@/services/user/types";
 import {
+  HTTPMethod,
+  ILoginRequest,
   ILoginUserResponse,
   ILogoutResponse,
   IOrderResponse,
+  IRegisterRequest,
   IServerRefreshTokenResponse,
   IServerUserResponse,
   TApiResponse
@@ -13,8 +16,7 @@ import {
 const apiConfig = {
   baseUrl: BASE_URL,
   headers: {
-    "Content-Type": "application/json;charset=utf-8",
-    authorization: localStorage.getItem("accessToken") || ""
+    "Content-Type": "application/json;charset=utf-8"
   }
 };
 
@@ -28,7 +30,7 @@ function request<T>(endpoint: string, options: RequestInit): Promise<T> {
 
 export const refreshToken = () => {
   return request<TApiResponse<IServerRefreshTokenResponse>>("auth/token", {
-    method: "POST",
+    method: HTTPMethod.POST,
     headers: apiConfig.headers,
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken")
@@ -68,8 +70,8 @@ const getIngridients = () => {
 
 const postOrder = (data: Array<string>) => {
   return fetchWithRefresh<TApiResponse<IOrderResponse>>("orders", {
-    method: "POST",
-    headers: apiConfig.headers,
+    method: HTTPMethod.POST,
+    headers: { ...apiConfig.headers, authorization: localStorage.getItem("accessToken")! },
     body: JSON.stringify({
       ingredients: data
     })
@@ -78,13 +80,17 @@ const postOrder = (data: Array<string>) => {
 
 const getUser = async (): Promise<TUser> => {
   return fetchWithRefresh<TApiResponse<IServerUserResponse>>("auth/user", {
-    method: "GET",
+    method: HTTPMethod.GET,
     headers: apiConfig.headers
   }).then((res) => (res.success ? res.user : Promise.reject(res)));
 };
 
-const login = () => {
-  return request<TApiResponse<ILoginUserResponse>>("auth/login", { headers: apiConfig.headers }).then((res) => {
+const login = (formData: ILoginRequest) => {
+  return request<TApiResponse<ILoginUserResponse>>("auth/login", {
+    method: HTTPMethod.POST,
+    headers: apiConfig.headers,
+    body: JSON.stringify(formData)
+  }).then((res) => {
     localStorage.setItem("accessToken", res.accessToken);
     localStorage.setItem("refreshToken", res.refreshToken);
     return res.user;
@@ -95,19 +101,28 @@ const logout = () => {
   const token = localStorage.getItem("refreshToken");
   if (token) {
     return request<TApiResponse<ILogoutResponse>>("auth/logout", {
+      method: HTTPMethod.POST,
       headers: apiConfig.headers,
       body: JSON.stringify({ token })
-    }).then((res) => {
-      if (res.success) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-      } else {
-        Promise.reject(res);
-      }
+    }).then(() => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     });
   } else {
     Promise.reject();
   }
+};
+
+const register = (formData: IRegisterRequest) => {
+  return request<TApiResponse<ILoginUserResponse>>("auth/register", {
+    method: HTTPMethod.POST,
+    headers: apiConfig.headers,
+    body: JSON.stringify(formData)
+  }).then((res) => {
+    localStorage.setItem("accessToken", res.accessToken);
+    localStorage.setItem("refreshToken", res.refreshToken);
+    return res.user;
+  });
 };
 
 export const api = {
@@ -116,5 +131,6 @@ export const api = {
   refreshToken,
   login,
   logout,
-  getUser
+  getUser,
+  register
 };

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUserState, TUser } from "./types";
-import { login, logout } from "./actions";
+import { login, logout, register } from "./actions";
 
 const initialState: IUserState = {
   user: null,
@@ -20,12 +20,16 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state, action) => {
-        state.user = action.payload;
+      .addCase(login.fulfilled, (state, { payload }) => {
+        state.user = payload;
         state.isAuthChecked = true;
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+      })
+      .addCase(register.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.isAuthChecked = true;
       });
   }
 });

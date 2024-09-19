@@ -3,22 +3,40 @@ import cn from "classnames";
 import styles from "./register.module.scss";
 import { RoutePath } from "@/constants/router";
 import { Link } from "react-router-dom";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { IRegisterRequest } from "@/types/api-response";
+import { useAppDispatch } from "@/services/hooks";
+import { register } from "@/services/user/actions";
 
 export const Register = () => {
+  const [formData, setFormData] = useState<IRegisterRequest>({ email: "", password: "", name: "" });
+  const dispatch = useAppDispatch();
+
+  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const sendForm = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(register(formData));
+  };
+
   return (
     <div className={styles.container}>
       <h2 className={"text text_type_main-medium mb-6"}>Регистрация</h2>
-      <form className={cn("mb-20", styles.form)}>
+      <form className={cn("mb-20", styles.form)} onSubmit={sendForm}>
         <Input
           type="text"
           extraClass="mb-6"
-          value={""}
+          value={formData.name}
           placeholder={"Имя"}
-          onChange={() => console.log("ввел данные")}
+          name="name"
+          onChange={onChange}
         />
-        <EmailInput extraClass={"mb-6"} value={""} onChange={() => console.log("вводим почту")} />
-        <PasswordInput extraClass={"mb-6"} value={""} onChange={() => console.log("вводим пароль")} />
-        <Button htmlType={"button"} type="primary">
+        <EmailInput extraClass={"mb-6"} value={formData.email} onChange={onChange} name="email" />
+        <PasswordInput extraClass={"mb-6"} value={formData.password} onChange={onChange} name="password" />
+        <Button htmlType={"submit"} type="primary">
           Зарегистрироваться
         </Button>
       </form>
