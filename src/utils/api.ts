@@ -2,12 +2,14 @@ import { BASE_URL } from "@/constants/url";
 import { IBurgerIngridientsResponse } from "@/services/burger-ingridients/types";
 import { TUser } from "@/services/user/types";
 import {
-  HTTPMethod,
+  HTTPMethodEnum,
+  IForgotPasswordRequest,
   ILoginRequest,
   ILoginUserResponse,
   ILogoutResponse,
   IOrderResponse,
   IRegisterRequest,
+  IResetPasswordRequest,
   IServerRefreshTokenResponse,
   IServerUserResponse,
   TApiResponse
@@ -30,7 +32,7 @@ function request<T>(endpoint: string, options: RequestInit): Promise<T> {
 
 export const refreshToken = () => {
   return request<TApiResponse<IServerRefreshTokenResponse>>("auth/token", {
-    method: HTTPMethod.POST,
+    method: HTTPMethodEnum.POST,
     headers: apiConfig.headers,
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken")
@@ -70,7 +72,7 @@ const getIngridients = () => {
 
 const postOrder = (data: Array<string>) => {
   return fetchWithRefresh<TApiResponse<IOrderResponse>>("orders", {
-    method: HTTPMethod.POST,
+    method: HTTPMethodEnum.POST,
     headers: { ...apiConfig.headers, authorization: localStorage.getItem("accessToken")! },
     body: JSON.stringify({
       ingredients: data
@@ -80,14 +82,13 @@ const postOrder = (data: Array<string>) => {
 
 const getUser = async (): Promise<TUser> => {
   return fetchWithRefresh<TApiResponse<IServerUserResponse>>("auth/user", {
-    method: HTTPMethod.GET,
-    headers: apiConfig.headers
+    headers: { ...apiConfig.headers, authorization: localStorage.getItem("accessToken")! }
   }).then((res) => (res.success ? res.user : Promise.reject(res)));
 };
 
 const login = (formData: ILoginRequest) => {
   return request<TApiResponse<ILoginUserResponse>>("auth/login", {
-    method: HTTPMethod.POST,
+    method: HTTPMethodEnum.POST,
     headers: apiConfig.headers,
     body: JSON.stringify(formData)
   }).then((res) => {
@@ -101,7 +102,7 @@ const logout = () => {
   const token = localStorage.getItem("refreshToken");
   if (token) {
     return request<TApiResponse<ILogoutResponse>>("auth/logout", {
-      method: HTTPMethod.POST,
+      method: HTTPMethodEnum.POST,
       headers: apiConfig.headers,
       body: JSON.stringify({ token })
     }).then(() => {
@@ -115,7 +116,7 @@ const logout = () => {
 
 const register = (formData: IRegisterRequest) => {
   return request<TApiResponse<ILoginUserResponse>>("auth/register", {
-    method: HTTPMethod.POST,
+    method: HTTPMethodEnum.POST,
     headers: apiConfig.headers,
     body: JSON.stringify(formData)
   }).then((res) => {
@@ -125,6 +126,22 @@ const register = (formData: IRegisterRequest) => {
   });
 };
 
+const forgotPassword = (formData: IForgotPasswordRequest) => {
+  return request<TApiResponse<ILogoutResponse>>("password-reset", {
+    method: HTTPMethodEnum.POST,
+    headers: apiConfig.headers,
+    body: JSON.stringify(formData)
+  });
+};
+
+export const resetPassword = (formData: IResetPasswordRequest): Promise<TApiResponse<ILogoutResponse>> => {
+  return request<TApiResponse<ILogoutResponse>>("password-reset/reset", {
+    method: HTTPMethodEnum.POST,
+    headers: apiConfig.headers,
+    body: JSON.stringify(formData)
+  }).then((res) => res);
+};
+
 export const api = {
   getIngridients,
   postOrder,
@@ -132,5 +149,7 @@ export const api = {
   login,
   logout,
   getUser,
-  register
+  register,
+  forgotPassword,
+  resetPassword
 };

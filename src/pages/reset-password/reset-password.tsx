@@ -2,26 +2,55 @@ import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burg
 import cn from "classnames";
 import styles from "./reset-password.module.scss";
 import { RoutePath } from "@/constants/router";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useAppDispatch } from "@/services/hooks";
+import { resetPassword } from "@/services/user/actions";
 
 export const ResetPassword = () => {
+  const [formData, setFormData] = useState({ password: "", token: "" });
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(resetPassword(formData)).then(() => {
+      localStorage.removeItem("resetPassword");
+      navigate(RoutePath.login, { replace: true });
+    });
+  };
+
+  useEffect(() => {
+    if (!localStorage.getItem("resetPassword")) {
+      navigate(RoutePath.forgot_password, { replace: true });
+    }
+  }, [navigate, location]);
+
   return (
     <div className={styles.container}>
       <h2 className={"text text_type_main-medium mb-6"}>Восстановление пароля</h2>
-      <form className={cn("mb-20", styles.form)}>
+      <form className={cn("mb-20", styles.form)} onSubmit={handleSubmit}>
         <PasswordInput
           placeholder="Введите новый пароль"
           extraClass={"mb-6"}
-          value={""}
-          onChange={() => console.log("вводим пароль")}
+          value={formData.password}
+          name="password"
+          onChange={onChange}
         />
         <Input
           extraClass={"mb-6"}
           placeholder="Введите код из письма"
-          value={""}
-          onChange={() => console.log("вводим код")}
+          value={formData.token}
+          name="token"
+          onChange={onChange}
         />
-        <Button htmlType={"button"} type="primary">
+        <Button htmlType={"submit"} type="primary">
           Сохранить
         </Button>
       </form>

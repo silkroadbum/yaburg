@@ -17,7 +17,7 @@ export const Login = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const sendForm = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(login(formData));
   };
@@ -25,7 +25,7 @@ export const Login = () => {
   return (
     <div className={styles.container}>
       <h2 className={"text text_type_main-medium mb-6"}>Вход</h2>
-      <form className={cn("mb-20", styles.form)} onSubmit={sendForm}>
+      <form className={cn("mb-20", styles.form)} onSubmit={handleSubmit}>
         <EmailInput extraClass={"mb-6"} value={formData.email} name={"email"} onChange={onChange} />
         <PasswordInput extraClass={"mb-6"} value={formData.password} name={"password"} onChange={onChange} />
         <Button htmlType={"submit"} type="primary">

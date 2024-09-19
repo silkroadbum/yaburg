@@ -17,7 +17,7 @@ export const Register = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const sendForm = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(register(formData));
   };
@@ -25,7 +25,7 @@ export const Register = () => {
   return (
     <div className={styles.container}>
       <h2 className={"text text_type_main-medium mb-6"}>Регистрация</h2>
-      <form className={cn("mb-20", styles.form)} onSubmit={sendForm}>
+      <form className={cn("mb-20", styles.form)} onSubmit={handleSubmit}>
         <Input
           type="text"
           extraClass="mb-6"

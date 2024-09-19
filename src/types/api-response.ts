@@ -28,7 +28,7 @@ export interface ILogoutResponse {
   message: string;
 }
 
-export enum HTTPMethod {
+export enum HTTPMethodEnum {
   GET = "GET",
   POST = "POST",
   PATCH = "PATCH"
@@ -36,6 +36,15 @@ export enum HTTPMethod {
 
 export interface IRegisterRequest extends TUser {
   password: string;
+}
+
+export interface IForgotPasswordRequest {
+  email: string;
+}
+
+export interface IResetPasswordRequest {
+  password: string;
+  token: string;
 }
 
 export interface ILoginRequest {
