@@ -17,6 +17,10 @@ export const resetPassword = createAsyncThunk("user/resetPassword", async (formD
   api.resetPassword(formData)
 );
 
+export const updateUser = createAsyncThunk("user/updateUser", async (formData: IRegisterRequest) =>
+  api.updateUser(formData)
+);
+
 export const checkUserAuth = createAsyncThunk("user/checkUserAuth", async (_, { dispatch }) => {
   if (localStorage.getItem("accessToken")) {
     api

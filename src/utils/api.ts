@@ -134,12 +134,20 @@ const forgotPassword = (formData: IForgotPasswordRequest) => {
   });
 };
 
-export const resetPassword = (formData: IResetPasswordRequest): Promise<TApiResponse<ILogoutResponse>> => {
+export const resetPassword = (formData: IResetPasswordRequest) => {
   return request<TApiResponse<ILogoutResponse>>("password-reset/reset", {
     method: HTTPMethodEnum.POST,
     headers: apiConfig.headers,
     body: JSON.stringify(formData)
-  }).then((res) => res);
+  });
+};
+
+export const updateUser = (formData: IRegisterRequest) => {
+  return fetchWithRefresh<TApiResponse<IServerUserResponse>>("auth/user", {
+    method: HTTPMethodEnum.PATCH,
+    headers: { ...apiConfig.headers, authorization: localStorage.getItem("accessToken")! },
+    body: JSON.stringify(formData)
+  }).then((res) => res.user);
 };
 
 export const api = {
@@ -151,5 +159,6 @@ export const api = {
   getUser,
   register,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  updateUser
 };
