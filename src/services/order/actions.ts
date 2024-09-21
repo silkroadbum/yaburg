@@ -1,4 +1,4 @@
-import { postOrder } from "@/utils/api-config";
+import { api } from "@/utils/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const createOrder = createAsyncThunk("order/createOrder", postOrder);
+export const createOrder = createAsyncThunk("order/createOrder", api.postOrder);

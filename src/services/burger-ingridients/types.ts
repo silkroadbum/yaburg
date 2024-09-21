@@ -7,6 +7,5 @@ export interface IBurgerIngridientsState {
 }
 
 export interface IBurgerIngridientsResponse {
-  success: boolean;
   data: IBurgerIngridient[];
 }

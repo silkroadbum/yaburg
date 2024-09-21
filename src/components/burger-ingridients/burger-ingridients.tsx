@@ -4,13 +4,8 @@ import TabPanel from "./tab-panel/tab-panel";
 import IngridientsList from "./ingridients-list/ingridients-list";
 import styles from "./burger-ingridients.module.scss";
 import { BurgerIngridientsTypeEnum, IBurgerIngridient } from "@/types/burger";
-import { useModal } from "@/hooks/useModal";
-import Modal from "../modal/modal";
-import IngridientDetails from "../ingridient-details/ingridient-details";
-import { useAppDispatch, useAppSelector } from "@/services/hooks";
+import { useAppSelector } from "@/services/hooks";
 import { selectIngridients } from "@/services/burger-ingridients/selectors";
-import { selectIngridientModal } from "@/services/ingridientModal/selectors";
-import { removeIngredientModal } from "@/services/ingridientModal/reducer";
 
 interface IIngridientsList {
   title: string;
@@ -21,9 +16,7 @@ interface IIngridientsList {
 const BurgerIngridients: FC = () => {
   const ingridients = useAppSelector(selectIngridients);
   const [activeTab, setActiveTab] = useState<string>(BurgerIngridientsTypeEnum.BUN);
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const ingridientModal = useAppSelector(selectIngridientModal);
-  const dispatch = useAppDispatch();
+
   const tabsRef = useRef<HTMLDivElement>(null);
   const bunRef = useRef<HTMLDivElement>(null);
   const sauceRef = useRef<HTMLDivElement>(null);
@@ -84,11 +77,6 @@ const BurgerIngridients: FC = () => {
     setActiveTab(closestTab!.type);
   };
 
-  const onClickCloseModal = () => {
-    closeModal();
-    dispatch(removeIngredientModal());
-  };
-
   return (
     <section className={cn("mt-10", styles.ingridients)}>
       <h2 className="text text_type_main-large mb-5">Соберите бургер</h2>
@@ -96,15 +84,10 @@ const BurgerIngridients: FC = () => {
       <ul className={cn("custom-scroll", styles.ingridients_lists)} onScroll={handleScroll}>
         {ingridientsList.map(({ title, ingridients, ref }) => (
           <li key={title}>
-            <IngridientsList title={title} ingridients={ingridients} openModal={openModal} ref={ref} />
+            <IngridientsList title={title} ingridients={ingridients} ref={ref} />
           </li>
         ))}
       </ul>
-      {isModalOpen && ingridientModal && (
-        <Modal header="Детали ингредиента" onClose={onClickCloseModal}>
-          <IngridientDetails ingridient={ingridientModal} />
-        </Modal>
-      )}
     </section>
   );
 };

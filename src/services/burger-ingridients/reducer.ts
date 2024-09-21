@@ -1,3 +1,4 @@
+import { TApiResponse } from "@/types/api-response";
 import { createSlice } from "@reduxjs/toolkit";
 import { loadIngridients } from "./actions";
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -24,7 +25,7 @@ export const burgerIngridientsSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase(loadIngridients.fulfilled, (state, action: PayloadAction<IBurgerIngridientsResponse>) => {
+      .addCase(loadIngridients.fulfilled, (state, action: PayloadAction<TApiResponse<IBurgerIngridientsResponse>>) => {
         state.loading = false;
         state.ingridients = action.payload.data;
       });

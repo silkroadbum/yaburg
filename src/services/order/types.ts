@@ -1,13 +1,7 @@
-export interface IOrder {
-  name: string;
-  order: {
-    number: number;
-  };
-  success: boolean;
-}
+import { IOrderResponse } from "@/types/api-response";
 
 export interface IOrderState {
-  order: IOrder | null;
+  order: IOrderResponse | null;
   loading: boolean;
   error: string | null | undefined;
 }

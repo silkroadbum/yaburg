@@ -1,23 +1,41 @@
 import { FC, useEffect } from "react";
-import cn from "classnames";
 import AppHeader from "@/components/app-header/app-header";
-import BurgerConstructor from "@/components/burger-constructor/burger-constructor";
-import BurgerIngridients from "@/components/burger-ingridients/burger-ingridients";
-import styles from "./app.module.scss";
-import Loader from "../loader/loader";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Home } from "@/pages/home/home";
+import { RoutePath } from "@/constants/router";
+import { NotFound } from "@/pages/not-found/not-found";
 import { useAppDispatch, useAppSelector } from "@/services/hooks";
+import Modal from "../modal/modal";
+import IngridientDetails from "../ingridient-details/ingridient-details";
+import { Ingredients } from "@/pages/ingredients/ingredients";
 import { selectErrorStatusIngridients, selectLoadingStatusIngridients } from "@/services/burger-ingridients/selectors";
 import { loadIngridients } from "@/services/burger-ingridients/actions";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import Loader from "../loader/loader";
+import styles from "./app.module.scss";
+import cn from "classnames";
+import { Login } from "@/pages/login/login";
+import { Register } from "@/pages/register/register";
+import { ForgotPassword } from "@/pages/forgot-password/forgot-password";
+import { ResetPassword } from "@/pages/reset-password/reset-password";
+import { Profile } from "@/pages/profile/profile";
+import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
+import { checkUserAuth } from "@/services/user/actions";
 
 const App: FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const state = location.state as { backgroundLocation?: Location };
+
+  const onClickCloseModal = () => navigate(-1);
+
   const loading = useAppSelector(selectLoadingStatusIngridients);
   const error = useAppSelector(selectErrorStatusIngridients);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(loadIngridients());
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   return (
@@ -30,12 +48,31 @@ const App: FC = () => {
       ) : error ? (
         <div className={cn("text text_type_main-default", styles.wrapper)}>Ошибка получения данных!</div>
       ) : (
-        <main className={styles.container}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngridients />
-            <BurgerConstructor />
-          </DndProvider>
-        </main>
+        <>
+          <Routes location={state?.backgroundLocation || location}>
+            <Route path={RoutePath.home} element={<Home />} />
+            <Route path={RoutePath.login} element={<OnlyUnAuth component={<Login />} />} />
+            <Route path={RoutePath.register} element={<OnlyUnAuth component={<Register />} />} />
+            <Route path={RoutePath.forgot_password} element={<OnlyUnAuth component={<ForgotPassword />} />} />
+            <Route path={RoutePath.reset_password} element={<OnlyUnAuth component={<ResetPassword />} />} />
+            <Route path={RoutePath.profile} element={<OnlyAuth component={<Profile />} />} />
+            <Route path={`${RoutePath.ingredients}/:id`} element={<Ingredients />} />
+            <Route path={RoutePath.not_found} element={<NotFound />} />
+          </Routes>
+
+          {state?.backgroundLocation && (
+            <Routes>
+              <Route
+                path={`${RoutePath.ingredients}/:id`}
+                element={
+                  <Modal header="Детали ингредиента" onClose={onClickCloseModal}>
+                    <IngridientDetails />
+                  </Modal>
+                }
+              />
+            </Routes>
+          )}
+        </>
       )}
     </>
   );

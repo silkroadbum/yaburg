@@ -11,11 +11,18 @@ import { resetStateConstructor } from "@/services/burger-constructor/reducer";
 import { resetStateOrder } from "@/services/order/reducer";
 import { selectLoadingStatusOrder } from "@/services/order/selectors";
 import Loader from "@/components/loader/loader";
+import { selectUser } from "@/services/user/selectors";
+import { useLocation, useNavigate } from "react-router-dom";
+import { RoutePath } from "@/constants/router";
 
 const TotalPrice: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { ingredients, bun } = useAppSelector(selectBurgerConstructor);
   const loading = useAppSelector(selectLoadingStatusOrder);
+  const user = useAppSelector(selectUser);
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const ingredientsPrice = useMemo(() => ingredients.reduce((acc, item) => acc + item.price, 0), [ingredients]);
@@ -29,7 +36,10 @@ const TotalPrice: FC = () => {
   }, [bun, ingredients]);
 
   const onClickCreateOrder = () => {
-    if (bun) {
+    if (!bun) return;
+    if (!user) {
+      navigate(RoutePath.login, { state: { from: location.pathname } });
+    } else {
       dispatch(createOrder(ids));
       openModal();
       dispatch(resetStateConstructor());
@@ -51,12 +61,8 @@ const TotalPrice: FC = () => {
         Оформить заказ
       </Button>
 
-      {loading && <Loader className={styles.loader} />}
-
-      {!loading && isModalOpen && (
-        <Modal onClose={onClickCloseModal}>
-          <OrderDetails />
-        </Modal>
+      {isModalOpen && (
+        <Modal onClose={onClickCloseModal}>{loading ? <Loader className={styles.loader} /> : <OrderDetails />}</Modal>
       )}
     </div>
   );
