@@ -3,19 +3,15 @@ import cn from "classnames";
 import { Link } from "react-router-dom";
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./login.module.scss";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { ILoginRequest } from "@/types/api-response";
 import { useAppDispatch } from "@/services/hooks";
 import { login } from "@/services/user/actions";
+import { useForm } from "@/hooks/useForm";
 
 export const Login = () => {
-  const [formData, setFormData] = useState<ILoginRequest>({ email: "", password: "" });
+  const { formData, handleChange } = useForm<ILoginRequest>({ email: "", password: "" });
   const dispatch = useAppDispatch();
-
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,8 +22,20 @@ export const Login = () => {
     <div className={styles.container}>
       <h2 className={"text text_type_main-medium mb-6"}>Вход</h2>
       <form className={cn("mb-20", styles.form)} onSubmit={handleSubmit}>
-        <EmailInput extraClass={"mb-6"} value={formData.email} name={"email"} onChange={onChange} />
-        <PasswordInput extraClass={"mb-6"} value={formData.password} name={"password"} onChange={onChange} />
+        <EmailInput
+          extraClass={"mb-6"}
+          value={formData.email}
+          name={"email"}
+          onChange={handleChange}
+          autoComplete="email"
+        />
+        <PasswordInput
+          extraClass={"mb-6"}
+          value={formData.password}
+          name={"password"}
+          onChange={handleChange}
+          autoComplete="current-password"
+        />
         <Button htmlType={"submit"} type="primary">
           Войти
         </Button>

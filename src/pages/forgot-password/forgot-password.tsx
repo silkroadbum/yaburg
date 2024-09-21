@@ -3,19 +3,16 @@ import cn from "classnames";
 import styles from "./forgot-password.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { RoutePath } from "@/constants/router";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { useAppDispatch } from "@/services/hooks";
 import { forgotPassword } from "@/services/user/actions";
+import { IForgotPasswordRequest } from "@/types/api-response";
+import { useForm } from "@/hooks/useForm";
 
 export const ForgotPassword = () => {
-  const [formData, setFormData] = useState({ email: "" });
+  const { formData, handleChange } = useForm<IForgotPasswordRequest>({ email: "" });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +31,8 @@ export const ForgotPassword = () => {
           extraClass={"mb-6"}
           value={formData.email}
           name="email"
-          onChange={onChange}
+          onChange={handleChange}
+          autoComplete="email"
         />
         <Button htmlType={"submit"} type="primary">
           Восстановить

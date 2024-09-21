@@ -1,22 +1,17 @@
 import cn from "classnames";
 import styles from "./profile.module.scss";
 import { EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/services/hooks";
 import { logout } from "@/services/user/actions";
 import { NavLink } from "react-router-dom";
 import { RoutePath } from "@/constants/router";
 import { selectUser } from "@/services/user/selectors";
+import { useForm } from "@/hooks/useForm";
 
 export const Profile = () => {
   const user = useAppSelector(selectUser);
-  const [formData, setFormData] = useState({ email: user?.email ?? "", password: "", name: user?.name ?? "" });
+  const { formData, handleChange } = useForm({ email: user?.email ?? "", password: "", name: user?.name ?? "" });
   const dispatch = useAppDispatch();
-
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const onClickExit = () => {
     dispatch(logout());
@@ -48,18 +43,20 @@ export const Profile = () => {
           extraClass="mb-6"
           placeholder="Имя"
           value={formData.name}
-          onChange={onChange}
+          onChange={handleChange}
           name="name"
+          autoComplete="name"
         />
         <EmailInput
           isIcon
           extraClass="mb-6"
           placeholder="Логин"
           value={formData.email}
-          onChange={onChange}
+          onChange={handleChange}
           name="email"
+          autoComplete="email"
         />
-        <PasswordInput icon={"EditIcon"} value={formData.password} onChange={onChange} name="password" />
+        <PasswordInput icon={"EditIcon"} value={formData.password} onChange={handleChange} name="current-password" />
       </form>
     </div>
   );

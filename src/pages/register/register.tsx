@@ -3,19 +3,15 @@ import cn from "classnames";
 import styles from "./register.module.scss";
 import { RoutePath } from "@/constants/router";
 import { Link } from "react-router-dom";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import { IRegisterRequest } from "@/types/api-response";
 import { useAppDispatch } from "@/services/hooks";
 import { register } from "@/services/user/actions";
+import { useForm } from "@/hooks/useForm";
 
 export const Register = () => {
-  const [formData, setFormData] = useState<IRegisterRequest>({ email: "", password: "", name: "" });
+  const { formData, handleChange } = useForm<IRegisterRequest>({ email: "", password: "", name: "" });
   const dispatch = useAppDispatch();
-
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,10 +28,23 @@ export const Register = () => {
           value={formData.name}
           placeholder={"Имя"}
           name="name"
-          onChange={onChange}
+          onChange={handleChange}
+          autoComplete="name"
         />
-        <EmailInput extraClass={"mb-6"} value={formData.email} onChange={onChange} name="email" />
-        <PasswordInput extraClass={"mb-6"} value={formData.password} onChange={onChange} name="password" />
+        <EmailInput
+          extraClass={"mb-6"}
+          value={formData.email}
+          onChange={handleChange}
+          name="email"
+          autoComplete="email"
+        />
+        <PasswordInput
+          extraClass={"mb-6"}
+          value={formData.password}
+          onChange={handleChange}
+          name="password"
+          autoComplete="new-password"
+        />
         <Button htmlType={"submit"} type="primary">
           Зарегистрироваться
         </Button>

@@ -3,20 +3,17 @@ import cn from "classnames";
 import styles from "./reset-password.module.scss";
 import { RoutePath } from "@/constants/router";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect } from "react";
 import { useAppDispatch } from "@/services/hooks";
 import { resetPassword } from "@/services/user/actions";
+import { useForm } from "@/hooks/useForm";
+import { IResetPasswordRequest } from "@/types/api-response";
 
 export const ResetPassword = () => {
-  const [formData, setFormData] = useState({ password: "", token: "" });
+  const { formData, handleChange } = useForm<IResetPasswordRequest>({ password: "", token: "" });
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,14 +38,15 @@ export const ResetPassword = () => {
           extraClass={"mb-6"}
           value={formData.password}
           name="password"
-          onChange={onChange}
+          onChange={handleChange}
+          autoComplete="new-password"
         />
         <Input
           extraClass={"mb-6"}
           placeholder="Введите код из письма"
           value={formData.token}
           name="token"
-          onChange={onChange}
+          onChange={handleChange}
         />
         <Button htmlType={"submit"} type="primary">
           Сохранить
