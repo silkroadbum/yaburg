@@ -8,8 +8,13 @@ export const useForm = <T>(initialValues: T) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const resetForm = () => {
+    setFormData(initialValues);
+  };
+
   return {
     formData,
-    handleChange
+    handleChange,
+    resetForm
   };
 };

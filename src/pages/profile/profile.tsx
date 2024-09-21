@@ -1,20 +1,30 @@
 import cn from "classnames";
 import styles from "./profile.module.scss";
-import { EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppDispatch, useAppSelector } from "@/services/hooks";
-import { logout } from "@/services/user/actions";
+import { logout, updateUser } from "@/services/user/actions";
 import { NavLink } from "react-router-dom";
 import { RoutePath } from "@/constants/router";
 import { selectUser } from "@/services/user/selectors";
 import { useForm } from "@/hooks/useForm";
+import { FormEvent } from "react";
 
 export const Profile = () => {
   const user = useAppSelector(selectUser);
-  const { formData, handleChange } = useForm({ email: user?.email ?? "", password: "", name: user?.name ?? "" });
+  const { formData, handleChange, resetForm } = useForm({
+    email: user?.email ?? "",
+    password: "",
+    name: user?.name ?? ""
+  });
   const dispatch = useAppDispatch();
 
   const onClickExit = () => {
     dispatch(logout());
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(updateUser(formData));
   };
 
   return (
@@ -37,7 +47,7 @@ export const Profile = () => {
           В этом разделе вы можете изменить свои персональные данные
         </p>
       </nav>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <Input
           icon={"EditIcon"}
           extraClass="mb-6"
@@ -56,7 +66,22 @@ export const Profile = () => {
           name="email"
           autoComplete="email"
         />
-        <PasswordInput icon={"EditIcon"} value={formData.password} onChange={handleChange} name="current-password" />
+        <PasswordInput
+          extraClass="mb-6"
+          icon="EditIcon"
+          value={formData.password}
+          name="password"
+          onChange={handleChange}
+          autoComplete="current-password"
+        />
+        <div className={styles.buttons_group}>
+          <Button extraClass="mr6" htmlType="button" type="secondary" onClick={resetForm}>
+            Отменить
+          </Button>
+          <Button htmlType="submit" disabled={!formData.password}>
+            Сохранить
+          </Button>
+        </div>
       </form>
     </div>
   );
