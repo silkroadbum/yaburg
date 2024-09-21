@@ -27,6 +27,8 @@ export const Profile = () => {
     dispatch(updateUser(formData));
   };
 
+  const isChanged = formData.email !== user?.email || formData.name !== user?.name || formData.password !== "";
+
   return (
     <div className={styles.container}>
       <nav>
@@ -74,14 +76,14 @@ export const Profile = () => {
           onChange={handleChange}
           autoComplete="current-password"
         />
-        <div className={styles.buttons_group}>
-          <Button extraClass="mr6" htmlType="button" type="secondary" onClick={resetForm}>
-            Отменить
-          </Button>
-          <Button htmlType="submit" disabled={!formData.password}>
-            Сохранить
-          </Button>
-        </div>
+        {isChanged && (
+          <div className={styles.buttons_group}>
+            <Button extraClass="mr6" htmlType="button" type="secondary" onClick={resetForm}>
+              Отменить
+            </Button>
+            <Button htmlType="submit">Сохранить</Button>
+          </div>
+        )}
       </form>
     </div>
   );
