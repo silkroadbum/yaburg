@@ -9,7 +9,7 @@ import { useAppDispatch } from "@/services/hooks";
 import { login } from "@/services/user/actions";
 import { useForm } from "@/hooks/useForm";
 
-export const Login = () => {
+const LoginPage = () => {
   const { formData, handleChange } = useForm<ILoginRequest>({ email: "", password: "" });
   const dispatch = useAppDispatch();
 
@@ -56,3 +56,5 @@ export const Login = () => {
     </div>
   );
 };
+
+export default LoginPage;

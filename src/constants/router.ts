@@ -6,6 +6,7 @@ export enum AppRoutes {
   RESET_PASSWORD = "reset_password",
   PROFILE = "profile",
   INGREDIENTS = "ingredients",
+  FEED = "feed",
   NOT_FOUND = "not_found"
 }
 
@@ -17,5 +18,6 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.RESET_PASSWORD]: "/reset-password",
   [AppRoutes.PROFILE]: "/profile",
   [AppRoutes.INGREDIENTS]: "/ingredients",
+  [AppRoutes.FEED]: "/feed",
   [AppRoutes.NOT_FOUND]: "*"
 };

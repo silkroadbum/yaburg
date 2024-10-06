@@ -4,7 +4,7 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
 import { RoutePath } from "@/constants/router";
 
-export const NotFound = () => {
+const NotFoundPage = () => {
   const navigate = useNavigate();
   const onClickGoToMainPage = () => {
     navigate(RoutePath.home, { replace: true });
@@ -19,3 +19,5 @@ export const NotFound = () => {
     </div>
   );
 };
+
+export default NotFoundPage;

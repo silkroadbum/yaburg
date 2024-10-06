@@ -9,7 +9,7 @@ import { resetPassword } from "@/services/user/actions";
 import { useForm } from "@/hooks/useForm";
 import { IResetPasswordRequest } from "@/types/api-response";
 
-export const ResetPassword = () => {
+const ResetPasswordPage = () => {
   const { formData, handleChange } = useForm<IResetPasswordRequest>({ password: "", token: "" });
   const location = useLocation();
   const navigate = useNavigate();
@@ -62,3 +62,5 @@ export const ResetPassword = () => {
     </div>
   );
 };
+
+export default ResetPasswordPage;

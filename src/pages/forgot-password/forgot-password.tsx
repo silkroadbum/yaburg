@@ -9,7 +9,7 @@ import { forgotPassword } from "@/services/user/actions";
 import { IForgotPasswordRequest } from "@/types/api-response";
 import { useForm } from "@/hooks/useForm";
 
-export const ForgotPassword = () => {
+const ForgotPasswordPage = () => {
   const { formData, handleChange } = useForm<IForgotPasswordRequest>({ email: "" });
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -48,3 +48,5 @@ export const ForgotPassword = () => {
     </div>
   );
 };
+
+export default ForgotPasswordPage;

@@ -9,7 +9,7 @@ import { useAppDispatch } from "@/services/hooks";
 import { register } from "@/services/user/actions";
 import { useForm } from "@/hooks/useForm";
 
-export const Register = () => {
+const RegisterPage = () => {
   const { formData, handleChange } = useForm<IRegisterRequest>({ email: "", password: "", name: "" });
   const dispatch = useAppDispatch();
 
@@ -59,3 +59,5 @@ export const Register = () => {
     </div>
   );
 };
+
+export default RegisterPage;

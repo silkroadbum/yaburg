@@ -9,7 +9,7 @@ import { selectUser } from "@/services/user/selectors";
 import { useForm } from "@/hooks/useForm";
 import { FormEvent } from "react";
 
-export const Profile = () => {
+const ProfilePage = () => {
   const user = useAppSelector(selectUser);
   const { formData, handleChange, resetForm } = useForm({
     email: user?.email ?? "",
@@ -88,3 +88,5 @@ export const Profile = () => {
     </div>
   );
 };
+
+export default ProfilePage;
