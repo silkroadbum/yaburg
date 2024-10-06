@@ -6,14 +6,14 @@ import CompoundItem from "./compound-item/compound-item";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "@/services/hooks";
 import { selectIngridients } from "@/services/burger-ingridients/selectors";
-import { NotFound } from "@/pages/not-found/not-found";
+import NotFoundPage from "@/pages/not-found/not-found";
 
 const IngridientDetails: FC = () => {
   const { id } = useParams();
   const ingredients = useAppSelector(selectIngridients);
   const ingredient = ingredients.find((ingredient) => ingredient._id === id);
 
-  if (!ingredient) return <NotFound />;
+  if (!ingredient) return <NotFoundPage />;
 
   const compoundList: ICompoundsList = [
     { name: "Калории,ккал", value: ingredient.calories },

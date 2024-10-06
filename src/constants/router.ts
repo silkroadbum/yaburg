@@ -22,6 +22,6 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.PROFILE_ORDERS]: "/profile/orders",
   [AppRoutes.INGREDIENTS]: "/ingredients",
   [AppRoutes.FEED]: "/feed",
-  [AppRoutes.ORDERS]: "/orders",
+  [AppRoutes.ORDERS]: "orders",
   [AppRoutes.NOT_FOUND]: "*"
 };
