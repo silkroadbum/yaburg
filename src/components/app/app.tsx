@@ -19,8 +19,10 @@ import ForgotPasswordPage from "@/pages/forgot-password/forgot-password";
 import ResetPasswordPage from "@/pages/reset-password/reset-password";
 import ProfilePage from "@/pages/profile/profile";
 import FeedPage from "@/pages/feed/feed";
+import OrderPage from "@/pages/order/order";
+import OrderInfo from "../order-info/order-info";
+import OrdersPage from "@/pages/orders/orders";
 import { RoutePath } from "@/constants/router";
-
 import styles from "./app.module.scss";
 
 const App: FC = () => {
@@ -57,9 +59,13 @@ const App: FC = () => {
             <Route path={RoutePath.register} element={<OnlyUnAuth component={<RegisterPage />} />} />
             <Route path={RoutePath.forgot_password} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
             <Route path={RoutePath.reset_password} element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
-            <Route path={RoutePath.profile} element={<OnlyAuth component={<ProfilePage />} />} />
+            <Route path={RoutePath.profile} element={<OnlyAuth component={<ProfilePage />} />}>
+              <Route path={RoutePath.orders} element={<OnlyAuth component={<OrdersPage />} />} />
+            </Route>
+            <Route path={`${RoutePath.profile_orders}/:number`} element={<OnlyAuth component={<OrderPage />} />} />
             <Route path={`${RoutePath.ingredients}/:id`} element={<IngredientsPage />} />
             <Route path={RoutePath.feed} element={<FeedPage />} />
+            <Route path={`${RoutePath.feed}/:number`} element={<OrderPage />} />
             <Route path={RoutePath.not_found} element={<NotFoundPage />} />
           </Routes>
 
@@ -70,6 +76,22 @@ const App: FC = () => {
                 element={
                   <Modal header="Детали ингредиента" onClose={onClickCloseModal}>
                     <IngridientDetails />
+                  </Modal>
+                }
+              />
+              <Route
+                path={`${RoutePath.feed}/:number`}
+                element={
+                  <Modal onClose={onClickCloseModal}>
+                    <OrderInfo />
+                  </Modal>
+                }
+              />
+              <Route
+                path={`${RoutePath.profile_orders}/:number`}
+                element={
+                  <Modal onClose={onClickCloseModal}>
+                    <OrderInfo />
                   </Modal>
                 }
               />
