@@ -1,0 +1,43 @@
+@import "@/styles/colors.scss";
+
+.orders_numbers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 36px;
+
+  .status {
+    height: 206px;
+
+    .done {
+      color: $text-success;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      max-height: 100%;
+      gap: 8px;
+      list-style: none;
+      margin-top: 24px;
+      overflow-y: hidden;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--text-inactive-color) var(--background-element);
+    }
+
+    .list::-webkit-scrollbar {
+      height: 8px;
+    }
+    .list::-webkit-scrollbar-track {
+      background: var(--background-element);
+    }
+    .list::-webkit-scrollbar-thumb {
+      background-color: var(--text-inactive-color);
+    }
+  }
+}
+
+.count {
+  text-shadow: 0 0 25px $text-shadow-accent;
+}

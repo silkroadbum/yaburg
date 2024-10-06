@@ -1,0 +1,11 @@
+.container {
+  width: 1240px;
+  margin: 0 auto;
+  height: calc(100% - var(--header-height));
+
+  .main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 60px;
+  }
+}

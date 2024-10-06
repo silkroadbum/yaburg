@@ -24,9 +24,21 @@ export const NavigationList: FC = () => {
           )}
         </NavLink>
       </li>
-      <li className={cn("pt-4 pb-4 pl-5 pr-5", styles.list_item)}>
-        <ListIcon type="secondary" />
-        <span className="text text_type_main-default text_color_inactive ml-2">Лента заказов</span>
+      <li>
+        <NavLink to={RoutePath.feed} className={cn("pt-4 pb-4 pl-5 pr-5", styles.list_item)}>
+          {({ isActive }) => (
+            <>
+              <ListIcon type={isActive ? "primary" : "secondary"} />
+              <span
+                className={cn("text text_type_main-default text_color_primary ml-2", {
+                  ["text_color_inactive"]: !isActive
+                })}
+              >
+                Лента заказов
+              </span>
+            </>
+          )}
+        </NavLink>
       </li>
     </ul>
   );
